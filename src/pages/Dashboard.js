@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import SpotifyWebApi from "spotify-web-api-node";
+import Search from "../components/Search.js";
 import { useAuth } from "../hooks/useAuth.js";
 import {
   DashboardContainer,
@@ -7,13 +9,26 @@ import {
   DisplayContainer,
 } from "./Dashboard.styles.js";
 
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.dev.REACT_APP_CLIENT_ID,
+  // clientId: "eafd5a23f1cb4f02b98c1cda9aa21333",
+});
+
 const Dashboard = ({ code }) => {
-  const accesToken = useAuth(code);
+  const accessToken = useAuth(code);
+
+  useEffect(() => {
+    if (!accessToken) return;
+    spotifyApi.setAccessToken(accessToken);
+  }, [accessToken]);
+
   return (
     <DashboardContainer>
       <UserContainer></UserContainer>
       <DataSongContainer></DataSongContainer>
-      <DisplayContainer></DisplayContainer>
+      <DisplayContainer>
+        <Search accessToken={accessToken} spotifyApi={spotifyApi} />
+      </DisplayContainer>
     </DashboardContainer>
   );
 };

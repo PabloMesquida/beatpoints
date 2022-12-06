@@ -13,17 +13,20 @@ export const DashboardContainer = styled.div`
 
 export const UserContainer = styled.div`
   width: 10vw;
-  margin: 0.2rem 0 0.2rem 0.2rem;
-  background-color: ${({ theme }) => theme.colors.colorFour};
+  margin: 1vw 0 1vw 1vw;
+  background-color: #000;
+  opacity: 0.6;
+  border-radius: 10px 0 0 10px;
 `;
 
 export const DataSongContainer = styled.div`
   width: 30vw;
-  margin: 0.2rem 0;
-  background-color: ${({ theme }) => theme.colors.colorFour};
+  margin: 1vw 0;
+  background-color: #000;
+  opacity: 0.4;
+  border-radius: 0px 10px 10px 0px;
 `;
 
 export const DisplayContainer = styled.div`
-  width: 10vw;
-  background-color: ${({ theme }) => theme.colors.colorFour};
+  width: 59vw;
 `;

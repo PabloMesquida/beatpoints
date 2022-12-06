@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const URI = process.env.REACT_APP_SERVER_URI;
+//const URI = "http://localhost:3001";
 
 export function useAuth(code) {
   const [accessToken, setAccessToken] = useState();
@@ -24,7 +25,7 @@ export function useAuth(code) {
       })
       .catch((err) => {
         console.log("axios-error-login", err);
-        ///  window.location = "/";
+        //  window.location = "/";
       });
   }, [code]);
 
@@ -41,7 +42,7 @@ export function useAuth(code) {
       })
       .catch((err) => {
         console.log("axios-error-refresh", err);
-        //  window.location = "/";
+        // window.location = "/";
       });
   }, [refreshToken, expiresIn]);
 
