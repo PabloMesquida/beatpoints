@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "./useAuth";
+import { useAuth } from "../hooks/useAuth.js";
 
 const Dashboard = ({ code }) => {
   const accesToken = useAuth(code);
