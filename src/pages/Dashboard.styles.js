@@ -9,22 +9,21 @@ export const DashboardContainer = styled.div`
   width: 100vw;
   height: 100vh;
   height: ${vh}px;
-  border: 1px solid #fff;
 `;
 
 export const UserContainer = styled.div`
   width: 10vw;
   margin: 0.2rem 0 0.2rem 0.2rem;
-  background-color: "#ff0";
+  background-color: ${({ theme }) => theme.colors.colorFour};
 `;
 
 export const DataSongContainer = styled.div`
   width: 30vw;
   margin: 0.2rem 0;
-  background-color: "#f0f";
+  background-color: ${({ theme }) => theme.colors.colorFour};
 `;
 
 export const DisplayContainer = styled.div`
   width: 10vw;
-  background-color: "#0ff";
+  background-color: ${({ theme }) => theme.colors.colorFour};
 `;
