@@ -24,8 +24,8 @@ export function useAuth(code) {
         window.history.pushState({}, null, "/");
       })
       .catch((err) => {
-        // console.log("axios-error-login", err);
-        window.location = "/";
+        console.log("axios-error-login", err);
+        ///  window.location = "/";
       });
   }, [code]);
 
@@ -41,8 +41,8 @@ export function useAuth(code) {
         setExpiresIn(res.data.expiresIn);
       })
       .catch((err) => {
-        ///  console.log("axios-error-refresh", err);
-        window.location = "/";
+        console.log("axios-error-refresh", err);
+        //  window.location = "/";
       });
   }, [refreshToken, expiresIn]);
 
