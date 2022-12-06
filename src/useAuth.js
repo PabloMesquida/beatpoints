@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const URI = process.env.SERVER_URI;
+const URI = process.env.REACT_APP_SERVER_URI;
 console.log(`${URI}/login`);
 
 export function useAuth(code) {
