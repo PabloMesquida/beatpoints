@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const DashboardContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 98vw;
+  border: 1px solid #fff;
 `;
 
 export const UserContainer = styled.div`
