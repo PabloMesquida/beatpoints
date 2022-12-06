@@ -21,7 +21,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: ${({ theme }) => theme.colors.colorOne};
-  font-family: ${({ theme }) => theme.fonts.txtFont};
+   font-family: ${({ theme }) => theme.fonts.logoFont}, sans-serif;
   font-size: 1rem;
   color:  ${({ theme }) => theme.colors.colorTwo};
   scroll-behavior: smooth;
@@ -32,6 +32,6 @@ body {
 
 h1{
   font-family: ${({ theme }) => theme.fonts.logoFont}, sans-serif;
-  color: ${({ theme }) => theme.colors.colorFour};
+  color: ${({ theme }) => theme.colors.colorTwo};
 }
 `;
