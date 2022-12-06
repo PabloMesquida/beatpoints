@@ -11,9 +11,7 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <Container>
-        code ? <Dashboard code={code} /> : <Login />
-      </Container>
+      <Container>{code ? <Dashboard code={code} /> : <Login />}</Container>
     </ThemeProvider>
   );
 }
