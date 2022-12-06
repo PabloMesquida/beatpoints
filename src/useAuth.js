@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-//const url = process.env.REACT_APP_REDIRECT_URI;
-//const url = "http://localhost:3001";
+const URI = process.env.SERVER_URI;
+console.log(`${URI}/login`);
 
 export function useAuth(code) {
   const [accessToken, setAccessToken] = useState();
@@ -13,7 +13,7 @@ export function useAuth(code) {
 
   useEffect(() => {
     axios
-      .post("https://beatpoints-server.vercel.app/login", {
+      .post(`${URI}/login`, {
         code,
       })
       .then((res) => {
@@ -32,7 +32,7 @@ export function useAuth(code) {
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
     axios
-      .post("https://beatpoints-server.vercel.app/refresh", {
+      .post(`${URI}/refresh`, {
         refreshToken,
       })
       .then((res) => {
