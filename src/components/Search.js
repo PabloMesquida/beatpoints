@@ -1,9 +1,21 @@
-import { useState, useEffect } from "react";
-import { SearchContainer, SearchInput } from "./Search.styles.js";
+import { useState, useEffect, useContext } from "react";
+import {
+  SearchContainer,
+  SearchInput,
+  ResultsContainer,
+} from "./Search.styles.js";
+import TrackSearchResult from "./TrackSearchResult.js";
+import { aContext } from "../context/Context.js";
 
 const Search = ({ accessToken, spotifyApi }) => {
   const [search, setSearch] = useState("");
+  const { playingTrack, setPlayingTrack } = useContext(aContext);
   const [searchResults, setSearchResults] = useState([]);
+
+  function chooseTrack(track) {
+    setPlayingTrack(track);
+    setSearch("");
+  }
 
   useEffect(() => {
     if (!search) return setSearchResults([]);
@@ -12,7 +24,6 @@ const Search = ({ accessToken, spotifyApi }) => {
     let cancel = false;
 
     spotifyApi.searchTracks(search).then((res) => {
-      console.log(res);
       if (cancel) return;
       setSearchResults(
         res.body.tracks.items.map((track) => {
@@ -45,6 +56,15 @@ const Search = ({ accessToken, spotifyApi }) => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+      <ResultsContainer>
+        {searchResults.map((track) => (
+          <TrackSearchResult
+            track={track}
+            key={track.uri}
+            chooseTrack={chooseTrack}
+          />
+        ))}
+      </ResultsContainer>
     </SearchContainer>
   );
 };

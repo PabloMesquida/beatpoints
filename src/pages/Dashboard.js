@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import Search from "../components/Search.js";
+import UserData from "../components/UserData.js";
+import Player from "../components/Player.js";
 import { useAuth } from "../hooks/useAuth.js";
 import {
   DashboardContainer,
@@ -8,6 +10,8 @@ import {
   DataSongContainer,
   DisplayContainer,
 } from "./Dashboard.styles.js";
+import { aContext } from "../context/Context.js";
+import { Lyrics } from "../components/Lyrics.js";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
@@ -15,6 +19,7 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const Dashboard = ({ code }) => {
+  const { playingTrack } = useContext(aContext);
   const accessToken = useAuth(code);
 
   useEffect(() => {
@@ -24,11 +29,16 @@ const Dashboard = ({ code }) => {
 
   return (
     <DashboardContainer>
-      <UserContainer></UserContainer>
-      <DataSongContainer></DataSongContainer>
+      <DataSongContainer>
+        <Lyrics />
+      </DataSongContainer>
       <DisplayContainer>
         <Search accessToken={accessToken} spotifyApi={spotifyApi} />
+        <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
       </DisplayContainer>
+      <UserContainer>
+        <UserData accessToken={accessToken} spotifyApi={spotifyApi} />
+      </UserContainer>
     </DashboardContainer>
   );
 };

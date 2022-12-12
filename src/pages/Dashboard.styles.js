@@ -12,21 +12,19 @@ export const DashboardContainer = styled.div`
 `;
 
 export const UserContainer = styled.div`
-  width: 10vw;
-  margin: 1vw 0 1vw 1vw;
-  background-color: #000;
-  opacity: 0.6;
-  border-radius: 10px 0 0 10px;
+  width: 90px;
+  margin: 10px;
 `;
 
 export const DataSongContainer = styled.div`
-  width: 30vw;
-  margin: 1vw 0;
+  width: 40vw;
+  min-width: 400px;
+  margin: 10px;
   background-color: #000;
   opacity: 0.4;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 10px;
 `;
 
 export const DisplayContainer = styled.div`
-  width: 59vw;
+  flex: 1;
 `;

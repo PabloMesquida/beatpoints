@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const URI = process.env.REACT_APP_SERVER_URI;
-//const URI = "http://localhost:3001";
+//const URI = process.env.REACT_APP_SERVER_URI;
+const URI = "http://localhost:3001";
 
 export function useAuth(code) {
   const [accessToken, setAccessToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
 
-  console.log(refreshToken);
+  //console.log(refreshToken);
 
   useEffect(() => {
     axios
