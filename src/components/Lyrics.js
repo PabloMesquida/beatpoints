@@ -6,11 +6,14 @@ export const Lyrics = () => {
   const [lyrics, setLyrics] = useState("");
   const { playingTrack } = useContext(aContext);
 
+  const URI = process.env.REACT_APP_SERVER_URI;
+  //const URI = "http://localhost:3001";
+
   useEffect(() => {
     if (!playingTrack) return;
     setLyrics("");
     axios
-      .get("http://localhost:3001/lyrics", {
+      .get(`${URI}/lyrics`, {
         params: {
           track: playingTrack.title,
           title: playingTrack.title,
