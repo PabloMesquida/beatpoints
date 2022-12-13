@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { aContext } from "../context/Context.js";
+import ShowLyrics from "./ShowLyrics.js";
+import ShowSyncLyrics from "./ShowSyncLyrics.js";
 
 export const Lyrics = () => {
   const [lyrics, setLyrics] = useState("");
+  const [syncLyric, setSyncLyric] = useState(false);
   const { playingTrack } = useContext(aContext);
 
   const URI = process.env.REACT_APP_SERVER_URI;
@@ -13,18 +16,39 @@ export const Lyrics = () => {
     if (!playingTrack) return;
     setLyrics("");
     axios
-      .get(`${URI}/lyrics`, {
-        params: {
-          track: playingTrack.title,
-          title: playingTrack.title,
-          trackId: playingTrack.id,
-        },
-      })
+      .get(
+        `https://spotify-lyric-api.herokuapp.com/?trackid=${playingTrack.id}`
+      )
       .then((res) => {
         console.log(res.data);
-        setLyrics(res.data.lyrics);
+        setSyncLyric(!res.data.error);
+        setLyrics(res.data.lines);
+
+        if (res.data.error === true || res.data.syncType === "UNSYNCED") {
+          console.log("no sync");
+          axios
+            .get(`${URI}/lyrics`, {
+              params: {
+                track: playingTrack.title,
+                title: playingTrack.title,
+                trackId: playingTrack.id,
+              },
+            })
+            .then((res) => {
+              console.log(res.data);
+              setLyrics(res.data.lyrics);
+            });
+        }
       });
   }, [playingTrack]);
 
-  return <div>{lyrics}</div>;
+  return (
+    <div>
+      {syncLyric ? (
+        <ShowSyncLyrics lyrics={lyrics} />
+      ) : (
+        <ShowLyrics lyrics={lyrics} />
+      )}
+    </div>
+  );
 };

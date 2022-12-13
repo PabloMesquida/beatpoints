@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
+import { aContext } from "../context/Context.js";
 
 const Player = ({ accessToken, trackUri }) => {
-  const [play, setPlay] = useState(false);
+  const { play, setPlay } = useContext(aContext);
 
   useEffect(() => {
     setPlay(true);
@@ -18,6 +19,7 @@ const Player = ({ accessToken, trackUri }) => {
         if (!state.isPlaying) setPlay(false);
       }}
       play={play}
+      initialVolume={0.2}
       showSaveIcon
     />
   );

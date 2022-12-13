@@ -9,6 +9,8 @@ import {
   UserContainer,
   DataSongContainer,
   DisplayContainer,
+  H1Dashboard,
+  H2Dashboard,
 } from "./Dashboard.styles.js";
 import { aContext } from "../context/Context.js";
 import { Lyrics } from "../components/Lyrics.js";
@@ -22,6 +24,8 @@ const Dashboard = ({ code }) => {
   const { playingTrack } = useContext(aContext);
   const accessToken = useAuth(code);
 
+  console.log(playingTrack);
+
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
@@ -30,6 +34,8 @@ const Dashboard = ({ code }) => {
   return (
     <DashboardContainer>
       <DataSongContainer>
+        <H1Dashboard>{playingTrack.title}</H1Dashboard>
+        <H2Dashboard>{playingTrack.artist}</H2Dashboard>
         <Lyrics />
       </DataSongContainer>
       <DisplayContainer>
