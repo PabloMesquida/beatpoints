@@ -24,7 +24,7 @@ const Dashboard = ({ code }) => {
   const { playingTrack } = useContext(aContext);
   const accessToken = useAuth(code);
 
-  console.log(playingTrack);
+  //console.log(playingTrack);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -34,8 +34,8 @@ const Dashboard = ({ code }) => {
   return (
     <DashboardContainer>
       <DataSongContainer>
-        <H1Dashboard>{playingTrack.title}</H1Dashboard>
-        <H2Dashboard>{playingTrack.artist}</H2Dashboard>
+        <H1Dashboard>{playingTrack?.title}</H1Dashboard>
+        <H2Dashboard>{playingTrack?.artist}</H2Dashboard>
         <Lyrics />
       </DataSongContainer>
       <DisplayContainer>
