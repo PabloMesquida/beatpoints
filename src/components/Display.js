@@ -9,7 +9,7 @@ import BufferTatumsPoints from "./BufferTatumsPoints.js";
 const Display = ({ spotifyApi, track }) => {
   const [secTempoArray, setSecTempoArray] = useState([]);
   const [secStartArray, setSecStartArray] = useState([]);
-  const { play } = useContext(aContext);
+  const { play, setPlay } = useContext(aContext);
   const [tiempoRef, setTiempoRef] = useState(Date.now());
   const [iSec, setISec] = useState(0);
 
@@ -27,11 +27,13 @@ const Display = ({ spotifyApi, track }) => {
 
       setSecTempoArray(sectionTempo);
       setSecStartArray(sectionStart);
+      setPlay(true);
     });
   }
 
   useEffect(() => {
     getTrackInfo();
+    setPlay(false);
   }, [track]);
 
   const ControlTime = () => {
