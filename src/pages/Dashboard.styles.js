@@ -28,6 +28,7 @@ export const DataSongContainer = styled.div`
 
 export const DisplayContainer = styled.div`
   flex: 1;
+  position: relative;
 `;
 
 export const H1Dashboard = styled.h1`

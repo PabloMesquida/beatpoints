@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const SearchContainer = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;

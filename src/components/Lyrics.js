@@ -43,12 +43,12 @@ export const Lyrics = () => {
   }, [playingTrack]);
 
   return (
-    <div>
-      {syncLyric ? (
+    <>
+      {lyrics && syncLyric ? (
         <ShowSyncLyrics lyrics={lyrics} />
       ) : (
         <ShowLyrics lyrics={lyrics} />
       )}
-    </div>
+    </>
   );
 };

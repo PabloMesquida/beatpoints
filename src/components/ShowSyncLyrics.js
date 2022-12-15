@@ -9,7 +9,7 @@ const ShowSyncLyrics = ({ lyrics }) => {
   const [now, setNow] = useState(start);
   const counter = now - start - 1800;
 
-  let t, intervalID;
+  let intervalID;
   let line1, line2, line3;
 
   const update = () => {
@@ -33,9 +33,7 @@ const ShowSyncLyrics = ({ lyrics }) => {
       }
       update();
     }
-
-    return () => clearInterval(t);
-  }, [counter]);
+  }, [counter, play]);
 
   return (
     <div>

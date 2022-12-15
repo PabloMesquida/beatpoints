@@ -5,6 +5,7 @@ export const aContext = createContext();
 export default function AppContext({ children }) {
   const [playingTrack, setPlayingTrack] = useState();
   const [play, setPlay] = useState(false);
+  const [playerRef, setPlayerRef] = useState();
 
   return (
     <aContext.Provider
@@ -13,6 +14,8 @@ export default function AppContext({ children }) {
         setPlayingTrack,
         play,
         setPlay,
+        playerRef,
+        setPlayerRef,
       }}
     >
       {children}
