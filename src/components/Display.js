@@ -27,13 +27,13 @@ const Display = ({ spotifyApi, track }) => {
 
       setSecTempoArray(sectionTempo);
       setSecStartArray(sectionStart);
-      setPlay(true);
+      OCRef.current.autoRotateSpeed =
+        (Math.pow(secTempoArray[0], secTempoArray[0] / 100) / 20) * 0.7;
     });
   }
 
   useEffect(() => {
     getTrackInfo();
-    setPlay(false);
   }, [track]);
 
   const ControlTime = () => {
