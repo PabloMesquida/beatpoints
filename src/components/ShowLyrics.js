@@ -1,7 +1,7 @@
 import React from "react";
 
 const ShowLyrics = ({ lyrics }) => {
-  return <div>{lyrics}</div>;
+  return <>{lyrics}</>;
 };
 
 export default ShowLyrics;

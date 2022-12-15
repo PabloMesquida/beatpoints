@@ -18,7 +18,7 @@ import Display from "../components/Display.js";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
-  //clientId: "eafd5a23f1cb4f02b98c1cda9aa21333",
+  // clientId: "eafd5a23f1cb4f02b98c1cda9aa21333",
 });
 
 const Dashboard = ({ code }) => {

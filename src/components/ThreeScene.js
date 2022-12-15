@@ -6,6 +6,7 @@ const ThreeScene = ({ children }) => {
   return (
     <ThreeContainer>
       <Canvas
+        camera={{ position: [0, 0, -3] }}
         style={{
           position: "absolute",
           width: "100%",

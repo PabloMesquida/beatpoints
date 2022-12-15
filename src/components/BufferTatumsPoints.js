@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { shaderMaterial } from "@react-three/drei";
 import glsl from "babel-plugin-glsl/macro";
@@ -6,26 +7,23 @@ import { BufferAttribute, MathUtils } from "three";
 
 const TWEEN = require("@tweenjs/tween.js");
 
-const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
-  const [beatsArray, setBeatsArray] = useState([]);
-  const [segments, setSegments] = useState(0);
-  const [tatums, setTatums] = useState(0);
-  const [iSec, setISec] = useState(0);
-  const [iBeats, setIBeats] = useState(0);
+const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
+  const count = 1200;
+  const [tatumsArray, setTatumsArray] = useState([]);
+  const [energy, setEnergy] = useState(0);
+  const [iTat, setITat] = useState(0);
+  const [tiempoRef, setTiempoRef] = useState(Date.now());
   const [loud, setLoud] = useState(0);
   const [secStartArray, setSecStartArray] = useState([]);
   const [secLoudArray, setSecLoudArray] = useState([]);
-  const [energy, setEnergy] = useState(0);
-  const [tiempoRef, setTiempoRef] = useState(Date.now());
+  const [iSec, setISec] = useState(0);
   const [iStart, setIStart] = useState(false);
   const [pauseControl, setPauseControl] = useState(true);
   const [realTime, setRealTime] = useState(0);
   const [delayControl, setDelayControl] = useState(true);
 
-  const count = 2600;
-
-  function getTrackBeats() {
-    let analisysTrackBeats = [];
+  function getTrackTatums() {
+    let analisysTrackTatums = [];
     let analisysStartSec = [];
     let analisysLoudSec = [];
 
@@ -34,17 +32,15 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
     });
 
     spotifyApi.getAudioAnalysisForTrack(trackId).then((res) => {
-      res.body.beats.forEach(async (el) => {
-        analisysTrackBeats.push(el.start);
+      res.body.tatums.forEach(async (el) => {
+        analisysTrackTatums.push(el.start);
       });
 
       if (
-        analisysTrackBeats.length > 0 &&
-        analisysTrackBeats.length === res.body.beats.length
+        analisysTrackTatums.length > 0 &&
+        analisysTrackTatums.length === res.body.tatums.length
       ) {
-        setBeatsArray(analisysTrackBeats);
-        setSegments(res.body.segments.length);
-        setTatums(res.body.tatums.length);
+        setTatumsArray(analisysTrackTatums);
       }
 
       res.body.sections.forEach((el) => {
@@ -66,9 +62,9 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
     setTiempoRef(Date.now());
     setRealTime(0);
     setIStart(true);
+    setITat(0);
     setISec(0);
-    setIBeats(0);
-    getTrackBeats();
+    getTrackTatums();
   }, [trackId, estado]);
 
   const PointsShaderMaterial = shaderMaterial(
@@ -79,7 +75,6 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
       uScale: 2,
       uRad: 0,
       uTime: 0,
-      uTipe: 0,
     },
     // Vertex
     glsl`
@@ -88,6 +83,9 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
       uniform float uRad;
       uniform float uTime;
       uniform float uScale;
+
+      varying float vAngle;
+      varying vec4 vPosition;
 
       void main(){
         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
@@ -113,31 +111,39 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
 
         gl_PointSize = uSize * uScale * uPixelRatio;
         gl_PointSize *= (1.0 / - viewPosition.z);
+        
+        vAngle = angle;
+        vPosition = modelPosition;
       }
       `,
     // Fragment
     glsl`
+
      uniform float uRad;
+     uniform float uTime;
+
+     varying float vAngle;
+     varying vec4 vPosition;
 
       void main() {
+        float r = 0.75 +  sin(uRad * 15.0)  ;
+        float g = 0.0;
+        float b = 0.75 -  sin(uRad * 5.0) ;
 
-        float r = 0.75 + sin(uRad) * 2.0;
-        float g = 0.75 + sin(uRad) * 2.0;
-        float b = 0.75 + sin(uRad) * 0.1;
-
-        gl_FragColor = vec4( r, g, b, 1.0);
+        gl_FragColor = vec4(r, g, b, 1.0);
      }`
   );
 
   extend({ PointsShaderMaterial });
 
   const refMaterial = useRef();
+
   let tweenRad;
-  let tweenRadBack;
-  let duraAnim = 160 - energy * 80;
+  let duraAnim = 80 - energy * 50;
+
   let tweenRadValue = { value: 0 };
 
-  if (beatsArray.length > 0) {
+  if (tatumsArray.length > 0) {
     tweenRad = new TWEEN.Tween(tweenRadValue);
     tweenRad.to({ value: loud }, duraAnim);
     tweenRad.repeat(1);
@@ -147,24 +153,6 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
     tweenRad.onUpdate(() => {
       refMaterial.current.uRad = tweenRadValue.value;
     });
-
-    tweenRadBack = new TWEEN.Tween(tweenRadValue);
-    tweenRadBack.to({ value: loud / 2 }, duraAnim);
-    tweenRadBack.repeat(1);
-    tweenRadBack.delay(0);
-    tweenRadBack.yoyo(true);
-    tweenRadBack.easing(TWEEN.Easing.Circular.In);
-    tweenRadBack.onUpdate(() => {
-      refMaterial.current.uRad = tweenRadValue.value;
-    });
-  }
-
-  let beatType;
-
-  if (segments < tatums) {
-    beatType = true;
-  } else {
-    beatType = false;
   }
 
   function roundEpsilon(n) {
@@ -175,22 +163,16 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
   function loudSections(time, ats, loudSec) {
     if (time >= ats) {
       switch (true) {
-        case loudSec <= 2:
-          setLoud(0.3);
+        case loudSec <= 4:
+          setLoud(0.07);
           break;
-        case loudSec > 2 && loudSec <= 5:
-          setLoud(0.2);
-          break;
-        case loudSec > 5 && loudSec <= 8:
-          setLoud(0.15);
-          break;
-        case loudSec > 8 && loudSec <= 12:
-          setLoud(0.1);
-          break;
-        case loudSec > 12 && loudSec <= 17:
+        case loudSec > 4 && loudSec <= 9:
           setLoud(0.05);
           break;
-        case loudSec > 17:
+        case loudSec > 9 && loudSec <= 15:
+          setLoud(0.03);
+          break;
+        case loudSec > 1:
           setLoud(0.01);
           break;
         default:
@@ -203,7 +185,7 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
   let tiempoAcu;
 
   useFrame(({ clock }) => {
-    if (beatsArray.length > 0 && iStart && estado) {
+    if (tatumsArray.length > 0 && iStart && estado) {
       if (delayControl) {
         setTiempoRef(Date.now());
         setDelayControl(false);
@@ -221,22 +203,15 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
 
       const ats = roundEpsilon(secStartArray[iSec]);
 
-      const atb = roundEpsilon(beatsArray[iBeats] - duraAnim / 100);
+      const att = roundEpsilon(tatumsArray[iTat] - duraAnim / 100);
 
       loudSections(tiempoAcu, ats, Math.abs(secLoudArray[iSec]));
 
-      if (tiempoAcu >= atb) {
-        if (beatType === true) {
-          if (iBeats % 2 !== 0) {
-            tweenRad.start();
-          } else {
-            tweenRadBack.start();
-          }
-        } else {
-          tweenRad.start();
-        }
-        setIBeats(iBeats + 1);
-        if (beatsArray.length === iBeats + 1) {
+      if (tiempoAcu >= att) {
+        tweenRad.start();
+        setITat(iTat + 1);
+
+        if (tatumsArray.length === iTat + 1) {
           setIStart(false);
           estado = false;
         }
@@ -262,11 +237,11 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
       const phi = MathUtils.randFloatSpread(360);
 
       positionArray[i * 3] =
-        Math.sin(theta) * Math.cos(phi) - MathUtils.randFloatSpread(1) * 0.3;
+        Math.sin(theta) * Math.cos(phi) - MathUtils.randFloatSpread(1) * 0.1;
       positionArray[i * 3 + 1] =
-        Math.sin(theta) * Math.sin(phi) - MathUtils.randFloatSpread(1) * 0.3;
+        Math.sin(theta) * Math.sin(phi) - MathUtils.randFloatSpread(1) * 0.1;
       positionArray[i * 3 + 2] =
-        Math.cos(theta) - MathUtils.randFloatSpread(1) * 0.3;
+        Math.cos(theta) - MathUtils.randFloatSpread(1) * 0.1;
     }
 
     return new BufferAttribute(positionArray, 3);
@@ -286,4 +261,4 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
   );
 };
 
-export default BufferBeatsPoints;
+export default BufferTatumsPoints;

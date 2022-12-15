@@ -19,7 +19,10 @@ const ShowSyncLyrics = ({ lyrics }) => {
 
   useEffect(() => {
     if (play) {
-      if (counter >= Number(lyrics[count].startTimeMs)) {
+      if (
+        counter >= Number(lyrics[count].startTimeMs) &&
+        count <= lyrics.lenght
+      ) {
         line1 = "";
         if (count > 0) {
           line1 = lyrics[count - 1].words;

@@ -4,9 +4,9 @@ import { aContext } from "../context/Context.js";
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import ThreeScene from "./ThreeScene.js";
+import BufferTatumsPoints from "./BufferTatumsPoints.js";
 
 const Display = ({ spotifyApi, track }) => {
-  const [delay, setDelay] = useState(false);
   const [secTempoArray, setSecTempoArray] = useState([]);
   const [secStartArray, setSecStartArray] = useState([]);
   const { play } = useContext(aContext);
@@ -42,7 +42,7 @@ const Display = ({ spotifyApi, track }) => {
         Math.round((secStartArray[iSec] + Number.EPSILON) * 100) / 100;
       if (tiempoAcu >= tempoSecAct) {
         OCRef.current.autoRotateSpeed =
-          (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) * 0.8;
+          (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) * 0.7;
         setISec(iSec + 1);
       }
     });
@@ -59,11 +59,20 @@ const Display = ({ spotifyApi, track }) => {
         enableZoom={false}
         enableRotate={false}
       />
-      <BufferBeatsPoints
-        spotifyApi={spotifyApi}
-        track={track.id}
-        state={play}
-      />
+      {track && (
+        <>
+          <BufferBeatsPoints
+            spotifyApi={spotifyApi}
+            trackId={track.id}
+            estado={play}
+          />
+          <BufferTatumsPoints
+            spotifyApi={spotifyApi}
+            trackId={track.id}
+            estado={play}
+          />
+        </>
+      )}
     </ThreeScene>
   );
 };
