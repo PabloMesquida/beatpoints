@@ -5,25 +5,29 @@ export const PlayerContainer = styled.div`
   display: flex;
   bottom: 10px;
   width: 100%;
-  border-radius: 10px;
-  border: 1px solid #00394d;
-  background-color: #00394d;
-  padding: 20px;
   flex-direction: row;
   justify-content: center;
 `;
 
 export const PlayerDiv = styled.div`
-  width: 90%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-content: center;
+  background-color: #ff0;
+  width: 90%;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.colorFive};
+  padding: 20px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 `;
 
-export const PlayerLogo = styled.div`
-  flex: 1;
-`;
+export const PlayerLogo = styled.div``;
 
 export const LogoImg = styled.img`
-  position: absolute;
+  margin-right: 2rem;
+`;
+
+export const PlayContainer = styled.div`
+  flex: 1;
 `;

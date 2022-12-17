@@ -13,33 +13,32 @@ const ShowSyncLyrics = ({ lyrics }) => {
   let line1, line2, line3;
 
   const update = () => {
+    if (counter >= Number(lyrics[count].startTimeMs)) {
+      line1 = "";
+      if (count > 0) {
+        line1 = lyrics[count - 1].words;
+      }
+      line2 = lyrics[count].words;
+      line3 = lyrics[count + 1].words
+        ? (line3 = lyrics[count + 1].words)
+        : (line3 = "");
+      setLyric({ l1: line1, l2: line2, l3: line3 });
+      setCount((prevCount) => prevCount + 1);
+    }
     intervalID = setInterval(() => setNow(Date.now()), 10);
+
     return () => clearInterval(intervalID);
   };
 
   useEffect(() => {
     if (play) {
-      if (
-        counter >= Number(lyrics[count].startTimeMs) &&
-        count <= lyrics.lenght
-      ) {
-        line1 = "";
-        if (count > 0) {
-          line1 = lyrics[count - 1].words;
-        }
-        line2 = lyrics[count].words;
-        line3 = lyrics[count + 1].words
-          ? (line3 = lyrics[count + 1].words)
-          : (line3 = "");
-        setLyric({ l1: line1, l2: line2, l3: line3 });
-        setCount((prevCount) => prevCount + 1);
-      }
       update();
     }
   }, [counter, play]);
 
   return (
     <div>
+      <h1>HOLA</h1>
       <h4>{lyric.l1}</h4>
       <h3>{lyric.l2}</h3>
       <h4>{lyric.l3}</h4>

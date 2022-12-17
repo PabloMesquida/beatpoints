@@ -1,12 +1,12 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { shaderMaterial } from "@react-three/drei";
-import glsl from "babel-plugin-glsl/macro";
 import { extend, useFrame } from "@react-three/fiber";
 import { BufferAttribute, MathUtils } from "three";
 
+import { BeatPointsShaderMaterial } from "../shaders/BeatPointsShaderMaterial.js";
+
 const TWEEN = require("@tweenjs/tween.js");
 
-const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
+const BufferBeatsPoints = ({ spotifyApi, trackId, estado, energy }) => {
   const [beatsArray, setBeatsArray] = useState([]);
   const [segments, setSegments] = useState(0);
   const [tatums, setTatums] = useState(0);
@@ -15,23 +15,21 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
   const [loud, setLoud] = useState(0);
   const [secStartArray, setSecStartArray] = useState([]);
   const [secLoudArray, setSecLoudArray] = useState([]);
-  const [energy, setEnergy] = useState(0);
   const [tiempoRef, setTiempoRef] = useState(Date.now());
   const [iStart, setIStart] = useState(false);
   const [pauseControl, setPauseControl] = useState(true);
   const [realTime, setRealTime] = useState(0);
   const [delayControl, setDelayControl] = useState(true);
 
-  const count = 2600;
+  const COUNT = 2000;
+
+  extend({ BeatPointsShaderMaterial });
 
   function getTrackBeats() {
+    if (!trackId) return;
     let analisysTrackBeats = [];
     let analisysStartSec = [];
     let analisysLoudSec = [];
-
-    spotifyApi.getAudioFeaturesForTrack(trackId).then((res) => {
-      setEnergy(res.body.energy);
-    });
 
     spotifyApi.getAudioAnalysisForTrack(trackId).then((res) => {
       res.body.beats.forEach(async (el) => {
@@ -66,70 +64,10 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
     setTiempoRef(Date.now());
     setRealTime(0);
     setIStart(true);
-    setISec(0);
     setIBeats(0);
+    setISec(0);
     getTrackBeats();
   }, [trackId, estado]);
-
-  const PointsShaderMaterial = shaderMaterial(
-    // Uniforms
-    {
-      uPixelRatio: Math.min(window.devicePixelRatio, 2),
-      uSize: 2,
-      uScale: 2,
-      uRad: 0,
-      uTime: 0,
-      uTipe: 0,
-    },
-    // Vertex
-    glsl`
-      uniform float uPixelRatio;
-      uniform float uSize;
-      uniform float uRad;
-      uniform float uTime;
-      uniform float uScale;
-
-      void main(){
-        vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-
-        float angle = atan(modelPosition.x, modelPosition.z);
-        float distanceToCenter = length(modelPosition.xz);
-
-        float angleOffset = (1.0 / distanceToCenter) * uTime * 2.0;
-        angle += angleOffset;
-
-        // modelPosition.x = cos(angle) * distanceToCenter;
-        // modelPosition.z = sin(angle) * distanceToCenter;
-
-
-        modelPosition.x *= 1.0 + (uRad * sin(angle)); // sin(uTime + modelPosition.x * 5.0) * uScale * 0.2;
-        modelPosition.y *= 1.0 + (uRad * cos(angle)); // sin(uTime + modelPosition.x * 5.0) * uScale * 0.2;
-        modelPosition.z *= 1.0 + (uRad * sin(angle)); // sin(uTime + modelPosition.x * 5.0) * uScale * 0.2;
-        
-        vec4 viewPosition = viewMatrix * modelPosition;
-        vec4 projectionPosition = projectionMatrix * viewPosition;
-
-        gl_Position = projectionPosition;
-
-        gl_PointSize = uSize * uScale * uPixelRatio;
-        gl_PointSize *= (1.0 / - viewPosition.z);
-      }
-      `,
-    // Fragment
-    glsl`
-     uniform float uRad;
-
-      void main() {
-
-        float r = 0.75 + sin(uRad) * 2.0;
-        float g = 0.75 + sin(uRad) * 2.0;
-        float b = 0.75 + sin(uRad) * 0.1;
-
-        gl_FragColor = vec4( r, g, b, 1.0);
-     }`
-  );
-
-  extend({ PointsShaderMaterial });
 
   const refMaterial = useRef();
   let tweenRad;
@@ -236,9 +174,8 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
           tweenRad.start();
         }
         setIBeats(iBeats + 1);
-        if (beatsArray.length === iBeats + 1) {
+        if (beatsArray.length + 1 === iBeats) {
           setIStart(false);
-          estado = false;
         }
       }
     }
@@ -255,9 +192,9 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
   });
 
   const points = useMemo(() => {
-    const positionArray = new Float32Array(count * 3);
+    const positionArray = new Float32Array(COUNT * 3);
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < COUNT; i++) {
       const theta = MathUtils.randFloatSpread(360);
       const phi = MathUtils.randFloatSpread(360);
 
@@ -273,7 +210,7 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
   });
 
   return (
-    <points>
+    <points rotation={[Math.PI * 0.5, 0, 0]}>
       <bufferGeometry>
         <bufferAttribute
           attach={"attributes-position"}
@@ -281,7 +218,7 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado }) => {
           needsUpdate={true}
         />
       </bufferGeometry>
-      <pointsShaderMaterial ref={refMaterial} transparent={true} />
+      <beatPointsShaderMaterial ref={refMaterial} transparent={true} />
     </points>
   );
 };

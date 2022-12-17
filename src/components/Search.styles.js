@@ -11,7 +11,7 @@ export const SearchContainer = styled.div`
 
 export const SearchInput = styled.input`
   width: 90%;
-  margin-top: 10px;
+  margin-top: 0.5rem;
   padding: 1rem 2rem;
   border-radius: 5rem;
   color: #fff;
@@ -22,5 +22,9 @@ export const SearchInput = styled.input`
 `;
 
 export const ResultsContainer = styled.div`
-  width: 90%;
+  background-color: rgba(256, 256, 256, 0.05);
+  backdrop-filter: blur(5px);
+  width: 82%;
+  border-radius: 0 0 10px 10px;
+  margin-top: 0.2rem;
 `;

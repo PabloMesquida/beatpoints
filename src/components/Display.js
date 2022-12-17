@@ -1,34 +1,39 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import BufferBeatsPoints from "./BufferBeatsPoints.js";
 import { aContext } from "../context/Context.js";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, CameraShake, Sparkles } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import ThreeScene from "./ThreeScene.js";
 import BufferTatumsPoints from "./BufferTatumsPoints.js";
+import { PointsContainer } from "./Display.styles.js";
 
 const Display = ({ spotifyApi, track }) => {
   const [secTempoArray, setSecTempoArray] = useState([]);
   const [secStartArray, setSecStartArray] = useState([]);
-  const { play, setPlay } = useContext(aContext);
-  const [tiempoRef, setTiempoRef] = useState(Date.now());
+  const [energy, setEnergy] = useState(0);
+  const { play } = useContext(aContext);
+  const [tiempoRef] = useState(Date.now());
   const [iSec, setISec] = useState(0);
 
   const OCRef = useRef();
 
   function getTrackInfo() {
+    if (!track) return;
+
     let sectionTempo = [];
     let sectionStart = [];
+
+    spotifyApi.getAudioFeaturesForTrack(track.id).then((res) => {
+      setEnergy(res.body.energy);
+    });
 
     spotifyApi.getAudioAnalysisForTrack(track.id).then((res) => {
       res.body.sections.forEach((el) => {
         sectionTempo.push(el.tempo);
         sectionStart.push(el.start);
       });
-
       setSecTempoArray(sectionTempo);
       setSecStartArray(sectionStart);
-      OCRef.current.autoRotateSpeed =
-        (Math.pow(secTempoArray[0], secTempoArray[0] / 100) / 20) * 0.7;
     });
   }
 
@@ -44,38 +49,62 @@ const Display = ({ spotifyApi, track }) => {
         Math.round((secStartArray[iSec] + Number.EPSILON) * 100) / 100;
       if (tiempoAcu >= tempoSecAct) {
         OCRef.current.autoRotateSpeed =
-          (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) * 0.7;
-        setISec(iSec + 1);
+          (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) * 0.4;
+
+        if (iSec !== secTempoArray.length - 1) setISec(iSec + 1);
       }
     });
     return null;
   };
 
   return (
-    <ThreeScene>
-      <ControlTime />
-      <OrbitControls
-        ref={OCRef}
-        autoRotate={play}
-        enablePan={false}
-        enableZoom={false}
-        enableRotate={false}
-      />
-      {track && (
-        <>
-          <BufferBeatsPoints
-            spotifyApi={spotifyApi}
-            trackId={track.id}
-            estado={play}
-          />
-          <BufferTatumsPoints
-            spotifyApi={spotifyApi}
-            trackId={track.id}
-            estado={play}
-          />
-        </>
-      )}
-    </ThreeScene>
+    <PointsContainer>
+      <ThreeScene>
+        <Sparkles
+          speed={
+            play
+              ? (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) /
+                  20) *
+                0.1
+              : 0.2
+          }
+        />
+        <ControlTime />
+        <BufferBeatsPoints
+          spotifyApi={spotifyApi}
+          trackId={track?.id}
+          estado={play}
+          energy={energy}
+        />
+        <BufferTatumsPoints
+          spotifyApi={spotifyApi}
+          trackId={track?.id}
+          estado={play}
+          energy={energy}
+        />
+
+        <OrbitControls
+          makeDefault
+          ref={OCRef}
+          autoRotate={play}
+          autoRotateSpeed={
+            (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) *
+            0.4
+          }
+          enableZoom={false}
+          enablePan={false}
+        />
+        <CameraShake
+          yawFrequency={1}
+          maxYaw={0.2}
+          pitchFrequency={1}
+          maxPitch={0.2}
+          rollFrequency={1}
+          maxRoll={0.2}
+          intensity={0.2}
+        />
+      </ThreeScene>
+    </PointsContainer>
   );
 };
 

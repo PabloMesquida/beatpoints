@@ -7,6 +7,7 @@ html {
   font-family: sans-serif;
   line-height: 1.6;
   scroll-behavior: smooth;
+  background-color: ${({ theme }) => theme.colors.colorOne};
 }
 
 *,

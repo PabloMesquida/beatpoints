@@ -18,14 +18,12 @@ import Display from "../components/Display.js";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
-  // clientId: "eafd5a23f1cb4f02b98c1cda9aa21333",
+  //clientId: "eafd5a23f1cb4f02b98c1cda9aa21333",
 });
 
 const Dashboard = ({ code }) => {
   const { playingTrack } = useContext(aContext);
   const accessToken = useAuth(code);
-
-  //console.log(playingTrack);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -40,9 +38,7 @@ const Dashboard = ({ code }) => {
         <Lyrics />
       </DataSongContainer>
       <DisplayContainer>
-        {playingTrack && (
-          <Display spotifyApi={spotifyApi} track={playingTrack} />
-        )}
+        <Display spotifyApi={spotifyApi} track={playingTrack} />
         <Search accessToken={accessToken} spotifyApi={spotifyApi} />
         <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
       </DisplayContainer>

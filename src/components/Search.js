@@ -9,7 +9,7 @@ import { aContext } from "../context/Context.js";
 
 const Search = ({ accessToken, spotifyApi }) => {
   const [search, setSearch] = useState("");
-  const { playingTrack, setPlayingTrack } = useContext(aContext);
+  const { setPlayingTrack } = useContext(aContext);
   const [searchResults, setSearchResults] = useState([]);
 
   function chooseTrack(track) {
@@ -57,7 +57,7 @@ const Search = ({ accessToken, spotifyApi }) => {
         onChange={(e) => setSearch(e.target.value)}
       />
       <ResultsContainer>
-        {searchResults.map((track) => (
+        {searchResults.slice(0, 8).map((track) => (
           <TrackSearchResult
             track={track}
             key={track.uri}

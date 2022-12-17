@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { UserDataContainer, AvatarImage } from "./UserData.styles.js";
+import {
+  UserDataContainer,
+  AvatarImage,
+  ImageContainer,
+  BeatpointsText,
+} from "./UserData.styles.js";
 
 const UserData = ({ spotifyApi, accessToken }) => {
   const [userData, setUserData] = useState(null);
@@ -21,7 +26,13 @@ const UserData = ({ spotifyApi, accessToken }) => {
   return (
     userData && (
       <UserDataContainer>
-        <AvatarImage src={userData.images[0].url} alt={userData.display_name} />
+        <ImageContainer>
+          <AvatarImage
+            src={userData.images[0].url}
+            alt={userData.display_name}
+          />
+        </ImageContainer>
+        <BeatpointsText>beatpoints</BeatpointsText>
       </UserDataContainer>
     )
   );

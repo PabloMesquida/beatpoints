@@ -1,16 +1,13 @@
 import React from "react";
 import { useState, useMemo, useRef, useEffect } from "react";
-import { shaderMaterial } from "@react-three/drei";
-import glsl from "babel-plugin-glsl/macro";
 import { extend, useFrame } from "@react-three/fiber";
 import { BufferAttribute, MathUtils } from "three";
+import { TatumsPointsShaderMaterial } from "../shaders/TatumsPointsShaderMaterial.js";
 
 const TWEEN = require("@tweenjs/tween.js");
 
-const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
-  const count = 1200;
+const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
   const [tatumsArray, setTatumsArray] = useState([]);
-  const [energy, setEnergy] = useState(0);
   const [iTat, setITat] = useState(0);
   const [tiempoRef, setTiempoRef] = useState(Date.now());
   const [loud, setLoud] = useState(0);
@@ -22,14 +19,15 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
   const [realTime, setRealTime] = useState(0);
   const [delayControl, setDelayControl] = useState(true);
 
+  const COUNT = 3200;
+
+  extend({ TatumsPointsShaderMaterial });
+
   function getTrackTatums() {
+    if (!trackId) return;
     let analisysTrackTatums = [];
     let analisysStartSec = [];
     let analisysLoudSec = [];
-
-    spotifyApi.getAudioFeaturesForTrack(trackId).then((res) => {
-      setEnergy(res.body.energy);
-    });
 
     spotifyApi.getAudioAnalysisForTrack(trackId).then((res) => {
       res.body.tatums.forEach(async (el) => {
@@ -66,75 +64,6 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
     setISec(0);
     getTrackTatums();
   }, [trackId, estado]);
-
-  const PointsShaderMaterial = shaderMaterial(
-    // Uniforms
-    {
-      uPixelRatio: Math.min(window.devicePixelRatio, 2),
-      uSize: 2,
-      uScale: 2,
-      uRad: 0,
-      uTime: 0,
-    },
-    // Vertex
-    glsl`
-      uniform float uPixelRatio;
-      uniform float uSize;
-      uniform float uRad;
-      uniform float uTime;
-      uniform float uScale;
-
-      varying float vAngle;
-      varying vec4 vPosition;
-
-      void main(){
-        vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-
-        float angle = atan(modelPosition.x, modelPosition.z);
-        float distanceToCenter = length(modelPosition.xz);
-
-        float angleOffset = (1.0 / distanceToCenter) * uTime * 2.0;
-        angle += angleOffset;
-
-        // modelPosition.x = cos(angle) * distanceToCenter;
-        // modelPosition.z = sin(angle) * distanceToCenter;
-
-
-        modelPosition.x *= 1.0 + (uRad * sin(angle)); // sin(uTime + modelPosition.x * 5.0) * uScale * 0.2;
-        modelPosition.y *= 1.0 + (uRad * cos(angle)); // sin(uTime + modelPosition.x * 5.0) * uScale * 0.2;
-        modelPosition.z *= 1.0 + (uRad * sin(angle)); // sin(uTime + modelPosition.x * 5.0) * uScale * 0.2;
-        
-        vec4 viewPosition = viewMatrix * modelPosition;
-        vec4 projectionPosition = projectionMatrix * viewPosition;
-
-        gl_Position = projectionPosition;
-
-        gl_PointSize = uSize * uScale * uPixelRatio;
-        gl_PointSize *= (1.0 / - viewPosition.z);
-        
-        vAngle = angle;
-        vPosition = modelPosition;
-      }
-      `,
-    // Fragment
-    glsl`
-
-     uniform float uRad;
-     uniform float uTime;
-
-     varying float vAngle;
-     varying vec4 vPosition;
-
-      void main() {
-        float r = 0.75 +  sin(uRad * 15.0)  ;
-        float g = 0.0;
-        float b = 0.75 -  sin(uRad * 5.0) ;
-
-        gl_FragColor = vec4(r, g, b, 1.0);
-     }`
-  );
-
-  extend({ PointsShaderMaterial });
 
   const refMaterial = useRef();
 
@@ -211,9 +140,8 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
         tweenRad.start();
         setITat(iTat + 1);
 
-        if (tatumsArray.length === iTat + 1) {
+        if (tatumsArray.length + 1 === iTat) {
           setIStart(false);
-          estado = false;
         }
       }
     }
@@ -230,11 +158,11 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
   });
 
   const points = useMemo(() => {
-    const positionArray = new Float32Array(count * 3);
+    const positionArray = new Float32Array(COUNT * 3);
 
-    for (let i = 0; i < count; i++) {
-      const theta = MathUtils.randFloatSpread(360);
-      const phi = MathUtils.randFloatSpread(360);
+    for (let i = 0; i < COUNT; i++) {
+      const theta = MathUtils.randFloatSpread(180);
+      const phi = MathUtils.randFloatSpread(180);
 
       positionArray[i * 3] =
         Math.sin(theta) * Math.cos(phi) - MathUtils.randFloatSpread(1) * 0.1;
@@ -248,7 +176,7 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
   });
 
   return (
-    <points>
+    <points rotation={[Math.PI * 0.5, 0, 0]}>
       <bufferGeometry>
         <bufferAttribute
           attach={"attributes-position"}
@@ -256,7 +184,7 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado }) => {
           needsUpdate={true}
         />
       </bufferGeometry>
-      <pointsShaderMaterial ref={refMaterial} transparent={true} />
+      <tatumsPointsShaderMaterial ref={refMaterial} transparent={true} />
     </points>
   );
 };

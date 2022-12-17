@@ -10,7 +10,7 @@ export const Lyrics = () => {
   const { playingTrack } = useContext(aContext);
 
   const URI = process.env.REACT_APP_SERVER_URI;
-  // const URI = "http://localhost:3001";
+  ///const URI = "http://localhost:3001";
 
   useEffect(() => {
     if (!playingTrack) return;
@@ -25,20 +25,22 @@ export const Lyrics = () => {
 
         if (res.data.error === true || res.data.syncType === "UNSYNCED") {
           console.log("no sync");
-          axios
-            .get(`${URI}/lyrics`, {
-              params: {
-                track: playingTrack.title,
-                artist: playingTrack.artist,
-              },
-            })
-            .then((res) => {
-              console.log("lyrics", res.data.lyrics);
-              setLyrics(res.data.lyrics);
-            });
+          setSyncLyric(res.data.error);
         } else {
-          setLyrics(res.data.lines);
+          setLyrics(res.data.lyrics);
         }
+      })
+      .catch(() => {
+        axios
+          .get(`${URI}/lyrics`, {
+            params: {
+              track: playingTrack.title,
+              artist: playingTrack.artist,
+            },
+          })
+          .then((res) => {
+            setLyrics(res.data.lyrics);
+          });
       });
   }, [playingTrack]);
 

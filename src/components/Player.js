@@ -6,6 +6,7 @@ import {
   PlayerDiv,
   PlayerLogo,
   LogoImg,
+  PlayContainer,
 } from "./Player.styles.js";
 
 const Player = ({ accessToken, trackUri }) => {
@@ -50,33 +51,35 @@ const Player = ({ accessToken, trackUri }) => {
         <PlayerLogo>
           <LogoImg src="img/Spotify_Logo_RGB_White.png" alt="Spotify" />
         </PlayerLogo>
-        <SpotifyPlayer
-          ref={refPlayer}
-          token={accessToken}
-          uris={trackUri ? [trackUri] : []}
-          callback={(state) => {
-            if (!state.isPlaying) {
-              setClickPlay(false);
-              setPlay(false);
-            } else {
-              setClickPlay(true);
-              //  setPlay(true);
-            }
-          }}
-          play={clickPlay}
-          initialVolume={0.2}
-          syncExternalDevice={false}
-          styles={{
-            activeColor: "#fff",
-            color: "#fff",
-            loaderColor: "#fff",
-            trackArtistColor: "#ccc",
-            trackNameColor: "#fff",
-            sliderHeight: "0",
-            bgColor: "#00394d",
-          }}
-          showSaveIcon
-        />
+        <PlayContainer>
+          <SpotifyPlayer
+            ref={refPlayer}
+            token={accessToken}
+            uris={trackUri ? [trackUri] : []}
+            callback={(state) => {
+              if (!state.isPlaying) {
+                setClickPlay(false);
+                setPlay(false);
+              } else {
+                setClickPlay(true);
+                //  setPlay(true);
+              }
+            }}
+            play={clickPlay}
+            initialVolume={0.2}
+            syncExternalDevice={false}
+            styles={{
+              activeColor: "#fff",
+              color: "#fff",
+              loaderColor: "#fff",
+              trackArtistColor: "#ccc",
+              trackNameColor: "#fff",
+              sliderHeight: "0",
+              bgColor: "#00394d",
+            }}
+            showSaveIcon
+          />
+        </PlayContainer>
       </PlayerDiv>
     </PlayerContainer>
   );

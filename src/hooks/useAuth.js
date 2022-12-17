@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const URI = process.env.REACT_APP_SERVER_URI;
-// const URI = "http://localhost:3001";
+//const URI = "http://localhost:3001";
 
 export function useAuth(code) {
   const [accessToken, setAccessToken] = useState();
@@ -10,6 +10,7 @@ export function useAuth(code) {
   const [expiresIn, setExpiresIn] = useState();
 
   useEffect(() => {
+    console.log("CODEAUTH", code);
     axios
       .post(`${URI}/login`, {
         code,
