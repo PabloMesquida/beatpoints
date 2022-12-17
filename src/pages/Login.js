@@ -23,9 +23,8 @@ const Login = () => {
         <LoaderPage />
       ) : (
         <>
-          <LoaderPage />
-          {/* <H1>beatpoints.</H1>
-          <ABtn href={AUTH_URL}>Login with Spotify</ABtn> */}
+          <H1>beatpoints.</H1>
+          <ABtn href={AUTH_URL}>Login with Spotify</ABtn>
         </>
       )}
     </LoginContainer>
