@@ -9,12 +9,12 @@ import {
   UserContainer,
   DataSongContainer,
   DisplayContainer,
-  H1Dashboard,
-  H2Dashboard,
 } from "./Dashboard.styles.js";
 import { aContext } from "../context/Context.js";
 import { Lyrics } from "../components/Lyrics.js";
 import Display from "../components/Display.js";
+import LoaderPage from "./LoaderPage.js";
+import DataSong from "../components/DataSong.js";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
@@ -22,8 +22,11 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const Dashboard = ({ code }) => {
-  const { playingTrack } = useContext(aContext);
+  const { playingTrack, playerRef } = useContext(aContext);
   const accessToken = useAuth(code);
+
+  let isPlayer = playerRef;
+  console.log(isPlayer);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -32,9 +35,9 @@ const Dashboard = ({ code }) => {
 
   return (
     <DashboardContainer>
+      {!isPlayer && <LoaderPage />}
       <DataSongContainer>
-        <H1Dashboard>{playingTrack?.title}</H1Dashboard>
-        <H2Dashboard>{playingTrack?.artist}</H2Dashboard>
+        <DataSong playingTrack={playingTrack} />
         <Lyrics />
       </DataSongContainer>
       <DisplayContainer>

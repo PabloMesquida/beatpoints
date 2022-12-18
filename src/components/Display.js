@@ -11,7 +11,7 @@ const Display = ({ spotifyApi, track }) => {
   const [secTempoArray, setSecTempoArray] = useState([]);
   const [secStartArray, setSecStartArray] = useState([]);
   const [energy, setEnergy] = useState(0);
-  const { play } = useContext(aContext);
+  const { play, setArtist } = useContext(aContext);
   const [tiempoRef] = useState(Date.now());
   const [iSec, setISec] = useState(0);
 
@@ -22,6 +22,8 @@ const Display = ({ spotifyApi, track }) => {
 
     let sectionTempo = [];
     let sectionStart = [];
+
+    console.log(track);
 
     spotifyApi.getAudioFeaturesForTrack(track.id).then((res) => {
       setEnergy(res.body.energy);
@@ -34,6 +36,12 @@ const Display = ({ spotifyApi, track }) => {
       });
       setSecTempoArray(sectionTempo);
       setSecStartArray(sectionStart);
+    });
+
+    spotifyApi.getTrack(track.id).then((res) => {
+      spotifyApi
+        .getArtist(res.body.artists[0].id)
+        .then((res) => setArtist(res.body));
     });
   }
 

@@ -3,11 +3,15 @@ import styled from "styled-components";
 let vh = window.innerHeight;
 
 export const LoaderContainer = styled.div`
+  z-index: 999999;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 90vw;
+  width: 100vw;
   height: 100vh;
   height: ${vh}px;
   background: rgb(14, 23, 37);

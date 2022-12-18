@@ -20,13 +20,16 @@ export const UserContainer = styled.div`
 `;
 
 export const DataSongContainer = styled.div`
-  width: 40vw;
+  width: 38vw;
   min-width: 400px;
+  overflow: hidden;
   margin: 0.5rem 0 0.5rem 0.5rem;
-  padding: 3rem;
   background-color: ${({ theme }) => theme.colors.colorFour};
+  background: rgb(12, 97, 95);
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  //box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  //box-shadow: 25px 25px 50px #0f1727, -25px -25px 50px #11192b;
+  background: linear-gradient(145deg, #101829 70%, #0c2133 100%);
 `;
 
 export const DisplayContainer = styled.div`
@@ -52,15 +55,4 @@ export const DisplayContainer = styled.div`
     rgba(8, 8, 22, 1) 68%
   );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#080816",endColorstr="#080816",GradientType=1);
-`;
-
-export const H1Dashboard = styled.h1`
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 3rem;
-`;
-export const H2Dashboard = styled.h2`
-  font-weight: normal;
-  margin-top: 0;
-  font-size: 1rem;
 `;

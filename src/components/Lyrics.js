@@ -3,6 +3,7 @@ import axios from "axios";
 import { aContext } from "../context/Context.js";
 import ShowLyrics from "./ShowLyrics.js";
 import ShowSyncLyrics from "./ShowSyncLyrics.js";
+import { LiricsContainer } from "./Lyrics.styles.js";
 
 export const Lyrics = () => {
   const [lyrics, setLyrics] = useState("");
@@ -10,7 +11,7 @@ export const Lyrics = () => {
   const { playingTrack } = useContext(aContext);
 
   const URI = process.env.REACT_APP_SERVER_URI;
-  ///const URI = "http://localhost:3001";
+  //const URI = "http://localhost:3001";
 
   useEffect(() => {
     if (!playingTrack) return;
@@ -45,12 +46,12 @@ export const Lyrics = () => {
   }, [playingTrack]);
 
   return (
-    <>
+    <LiricsContainer>
       {lyrics && syncLyric ? (
         <ShowSyncLyrics lyrics={lyrics} />
       ) : (
         <ShowLyrics lyrics={lyrics} />
       )}
-    </>
+    </LiricsContainer>
   );
 };

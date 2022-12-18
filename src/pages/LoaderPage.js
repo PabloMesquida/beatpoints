@@ -6,7 +6,7 @@ const LoaderPage = () => {
   return (
     <LoaderContainer>
       <H1Loader>beatpoints.</H1Loader>
-      <div class="lds-ellipsis">
+      <div className="lds-ellipsis">
         <div></div>
         <div></div>
         <div></div>

@@ -13,11 +13,12 @@ const Player = ({ accessToken, trackUri }) => {
   const [start] = useState(Date.now());
   const [now, setNow] = useState(start);
   const [clickPlay, setClickPlay] = useState(false);
-  const { play, setPlay } = useContext(aContext);
+  const { play, setPlay, setPlayerRef } = useContext(aContext);
+  const [time, setTime] = useState(0);
 
   const refPlayer = useRef();
 
-  let interval;
+  let interval, t;
   let counter = now - start;
   let prog = 0;
 
@@ -25,6 +26,24 @@ const Player = ({ accessToken, trackUri }) => {
     interval = setInterval(() => setNow(Date.now()), 10);
     return () => clearInterval(interval);
   };
+
+  const waitPlayer = () => {
+    t = setInterval(() => {
+      if (refPlayer.current) {
+        if (refPlayer.current.state.status === "READY") {
+          setPlayerRef(true);
+        } else {
+          setPlayerRef(false);
+        }
+      }
+      setTime(1);
+    }, 1000);
+    return () => clearInterval(t);
+  };
+
+  useEffect(() => {
+    waitPlayer();
+  }, [time]);
 
   useEffect(() => {
     if (clickPlay && !play && refPlayer.current) {
