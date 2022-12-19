@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ImgReplaceContainer = styled.div`
   display: flex;
   align-items: flex-end;
-  height: 300px;
+  height: 25vh;
   padding: 1rem 3rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.colorFive};
   background: rgb(12, 97, 95);

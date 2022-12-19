@@ -41,9 +41,11 @@ const Dashboard = ({ code }) => {
         <DataSec1>
           <DataSong playingTrack={playingTrack} />
         </DataSec1>
-        <DataSec2>
-          <Lyrics />
-        </DataSec2>
+        {playingTrack && (
+          <DataSec2>
+            <Lyrics />
+          </DataSec2>
+        )}
       </DataSongContainer>
       <DisplayContainer>
         <Display spotifyApi={spotifyApi} track={playingTrack} />
