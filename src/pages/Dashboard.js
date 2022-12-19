@@ -9,6 +9,8 @@ import {
   UserContainer,
   DataSongContainer,
   DisplayContainer,
+  DataSec1,
+  DataSec2,
 } from "./Dashboard.styles.js";
 import { aContext } from "../context/Context.js";
 import { Lyrics } from "../components/Lyrics.js";
@@ -26,7 +28,6 @@ const Dashboard = ({ code }) => {
   const accessToken = useAuth(code);
 
   let isPlayer = playerRef;
-  console.log(isPlayer);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -37,8 +38,12 @@ const Dashboard = ({ code }) => {
     <DashboardContainer>
       {!isPlayer && <LoaderPage />}
       <DataSongContainer>
-        <DataSong playingTrack={playingTrack} />
-        <Lyrics />
+        <DataSec1>
+          <DataSong playingTrack={playingTrack} />
+        </DataSec1>
+        <DataSec2>
+          <Lyrics />
+        </DataSec2>
       </DataSongContainer>
       <DisplayContainer>
         <Display spotifyApi={spotifyApi} track={playingTrack} />

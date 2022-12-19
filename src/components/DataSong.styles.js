@@ -13,7 +13,7 @@ export const ImgArtist = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  height: 300px;
+  height: 25vh;
   filter: blur(20px);
   -webkit-filter: blur(20px);
 `;
@@ -28,17 +28,62 @@ export const H1Dashboard = styled.div`
   flex-direction: column-reverse;
   top: -10px;
   left: 0px;
-  height: 300px;
-  padding-left: 3rem;
+  height: 25vh;
+  padding: 0 3rem;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 3rem;
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
   font-weight: bolder;
-  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.8);
+  text-shadow: 0px 0px 25px rgba(0, 0, 0, 1);
 `;
+
+export const ArtistContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+`;
+
+export const ArtistAvatar = styled.img`
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+`;
+
+export const AlbumImg = styled.img`
+  width: 52px;
+  height: 52px;
+  border-radius: 5px;
+  margin-right: 1rem;
+`;
+
 export const H2Dashboard = styled.h2`
   font-weight: normal;
-  margin-top: 0;
-  padding-left: 3rem;
-  font-size: 1rem;
+  padding-left: 1rem;
+  font-size: 1.2rem;
+  color: #cdcdcd;
+`;
+
+export const InfoContainer = styled.div`
+  padding: 0 3rem;
+`;
+
+export const InfoAlbumContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: 1px solid ${({ theme }) => theme.colors.colorFive};
+  border-radius: 10px;
+  padding: 1rem;
+`;
+
+export const InfoAlbum = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const AlbumName = styled.span``;
+
+export const AlbumRelease = styled.span`
+  opacity: 0.5;
 `;

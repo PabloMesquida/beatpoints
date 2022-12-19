@@ -3,7 +3,7 @@ import axios from "axios";
 import { aContext } from "../context/Context.js";
 import ShowLyrics from "./ShowLyrics.js";
 import ShowSyncLyrics from "./ShowSyncLyrics.js";
-import { LiricsContainer } from "./Lyrics.styles.js";
+import { LyricsContainer } from "./Lyrics.styles.js";
 
 export const Lyrics = () => {
   const [lyrics, setLyrics] = useState("");
@@ -46,12 +46,12 @@ export const Lyrics = () => {
   }, [playingTrack]);
 
   return (
-    <LiricsContainer>
+    <LyricsContainer>
       {lyrics && syncLyric ? (
         <ShowSyncLyrics lyrics={lyrics} />
       ) : (
         <ShowLyrics lyrics={lyrics} />
       )}
-    </LiricsContainer>
+    </LyricsContainer>
   );
 };

@@ -10,7 +10,6 @@ export function useAuth(code) {
   const [expiresIn, setExpiresIn] = useState();
 
   useEffect(() => {
-    console.log("CODEAUTH", code);
     axios
       .post(`${URI}/login`, {
         code,

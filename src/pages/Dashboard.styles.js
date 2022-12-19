@@ -20,16 +20,39 @@ export const UserContainer = styled.div`
 `;
 
 export const DataSongContainer = styled.div`
-  width: 38vw;
-  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+  width: 50vw;
+  min-width: 450px;
   overflow: hidden;
   margin: 0.5rem 0 0.5rem 0.5rem;
   background-color: ${({ theme }) => theme.colors.colorFour};
   background: rgb(12, 97, 95);
   border-radius: 10px;
-  //box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  //box-shadow: 25px 25px 50px #0f1727, -25px -25px 50px #11192b;
   background: linear-gradient(145deg, #101829 70%, #0c2133 100%);
+  max-height: 97.8%;
+`;
+
+export const DataSec1 = styled.div`
+  flex: 0;
+`;
+
+export const DataSec2 = styled.div`
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin: 1rem 3rem 3rem 3rem;
+  flex: 1;
+  &::-webkit-scrollbar {
+    width: 16px;
+    border-radius: 16px;
+    background-color: ${({ theme }) => theme.colors.colorOne};
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.colorFive};
+    border-radius: 16px;
+    width: 16px;
+  }
 `;
 
 export const DisplayContainer = styled.div`
@@ -54,5 +77,5 @@ export const DisplayContainer = styled.div`
     rgba(14, 23, 37, 1) 24%,
     rgba(8, 8, 22, 1) 68%
   );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#080816",endColorstr="#080816",GradientType=1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#112635",endColorstr="#080816",GradientType=1);
 `;
