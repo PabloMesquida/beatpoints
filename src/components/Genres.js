@@ -1,5 +1,5 @@
 import React from "react";
-import { GenreTag } from "./Genres.styles.js";
+import { GenreTag, GenresContainer } from "./Genres.styles.js";
 
 const Genres = ({ artist }) => {
   let tags = [];
@@ -7,6 +7,6 @@ const Genres = ({ artist }) => {
   for (let i = 0; i < artist.genres.length; i++) {
     tags.push(<GenreTag key={i}>{artist.genres[i]}</GenreTag>);
   }
-  return <>{tags}</>;
+  return <GenresContainer>{tags}</GenresContainer>;
 };
 export default Genres;

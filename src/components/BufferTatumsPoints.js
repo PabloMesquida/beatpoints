@@ -1,8 +1,9 @@
 import React from "react";
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect, useContext } from "react";
 import { extend, useFrame } from "@react-three/fiber";
 import { BufferAttribute, MathUtils } from "three";
 import { TatumsPointsShaderMaterial } from "../shaders/TatumsPointsShaderMaterial.js";
+import { aContext } from "../context/Context.js";
 
 const TWEEN = require("@tweenjs/tween.js");
 
@@ -18,13 +19,20 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
   const [pauseControl, setPauseControl] = useState(true);
   const [realTime, setRealTime] = useState(0);
   const [delayControl, setDelayControl] = useState(true);
+  const { setTiempoAcumulado } = useContext(aContext);
 
   const COUNT = 3200;
 
   extend({ TatumsPointsShaderMaterial });
 
   function getTrackTatums() {
-    if (!trackId) return;
+    if (!trackId) {
+      console.log("NO.TRACK");
+    } else {
+      console.log("TRACK");
+    }
+
+    //return;
     let analisysTrackTatums = [];
     let analisysStartSec = [];
     let analisysLoudSec = [];
@@ -63,7 +71,7 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
     setITat(0);
     setISec(0);
     getTrackTatums();
-  }, [trackId, estado]);
+  }, [trackId]);
 
   const refMaterial = useRef();
 
@@ -127,7 +135,7 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
       refMaterial.current.uTime = clock.getElapsedTime();
 
       tiempoAcu = (Date.now() - tiempoRef) / 1000;
-
+      // console.log("realtime on", realTime);
       tiempoAcu = roundEpsilon(tiempoAcu + realTime);
 
       const ats = roundEpsilon(secStartArray[iSec]);
@@ -135,7 +143,8 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
       const att = roundEpsilon(tatumsArray[iTat] - duraAnim / 100);
 
       loudSections(tiempoAcu, ats, Math.abs(secLoudArray[iSec]));
-
+      // console.log(tiempoAcu);
+      setTiempoAcumulado(tiempoAcu);
       if (tiempoAcu >= att) {
         tweenRad.start();
         setITat(iTat + 1);

@@ -13,3 +13,7 @@ export const GenreTag = styled.div`
   padding: 0.2rem 0.8rem;
   border-radius: 50px;
 `;
+
+export const GenresContainer = styled.div`
+  margin: 0 3rem;
+`;

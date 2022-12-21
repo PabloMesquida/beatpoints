@@ -22,15 +22,22 @@ import Genres from "./Genres.js";
 const DataSong = ({ playingTrack }) => {
   const { artist, trackInfo } = useContext(aContext);
 
-  console.log(trackInfo);
-
   return (
     <SongContainer>
       <ImgArtistContiner>
         {artist ? (
           <Img>
-            <ImgArtist src={playingTrack.albumUrl} alt={artist.name} />
-            <H1Dashboard>{playingTrack?.title}</H1Dashboard>
+            <ImgArtist
+              src={
+                playingTrack.albumUrl ||
+                playingTrack.album.images[playingTrack.album.images.length - 1]
+                  .url
+              }
+              alt={artist.name}
+            />
+            <H1Dashboard>
+              {playingTrack?.title || playingTrack.name}
+            </H1Dashboard>
           </Img>
         ) : (
           <ImgReplace />
@@ -39,8 +46,14 @@ const DataSong = ({ playingTrack }) => {
       {playingTrack && (
         <InfoContainer>
           <ArtistContainer>
-            <ArtistAvatar src={artist?.images[artist.images.length - 1].url} />
-            <H2Dashboard>{playingTrack?.artist}</H2Dashboard>
+            {artist && (
+              <ArtistAvatar
+                src={artist?.images[artist.images.length - 1].url}
+              />
+            )}
+            <H2Dashboard>
+              {playingTrack?.artist || playingTrack.artists[0].name}
+            </H2Dashboard>
           </ArtistContainer>
           {artist && <Genres artist={artist} />}
           {trackInfo && (

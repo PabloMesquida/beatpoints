@@ -23,7 +23,7 @@ export const DataSongContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 0;
-  width: 50vw;
+  width: 50%;
   min-width: 450px;
   overflow: hidden;
   margin: 0.5rem 0 0.5rem 0.5rem;

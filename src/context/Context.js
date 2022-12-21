@@ -8,6 +8,8 @@ export default function AppContext({ children }) {
   const [play, setPlay] = useState(false);
   const [playerRef, setPlayerRef] = useState(false);
   const [artist, setArtist] = useState();
+  const [nextTrack, setNextTrack] = useState();
+  const [tiempoAcumulado, setTiempoAcumulado] = useState();
 
   return (
     <aContext.Provider
@@ -22,6 +24,10 @@ export default function AppContext({ children }) {
         setArtist,
         trackInfo,
         setTrackInfo,
+        nextTrack,
+        setNextTrack,
+        tiempoAcumulado,
+        setTiempoAcumulado,
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 import { aContext } from "../context/Context.js";
+import NextTrackDisplay from "./NextTrackDisplay.js";
 import {
   PlayerContainer,
   PlayerDiv,
@@ -13,8 +14,11 @@ const Player = ({ accessToken, trackUri }) => {
   const [start] = useState(Date.now());
   const [now, setNow] = useState(start);
   const [clickPlay, setClickPlay] = useState(false);
-  const { play, setPlay, setPlayerRef } = useContext(aContext);
+  const { play, setPlay, setPlayerRef, nextTrack, setPlayingTrack } =
+    useContext(aContext);
   const [time, setTime] = useState(0);
+  const [showNextTrack, setShowNextTrack] = useState(false);
+  const [countdown, setCountdown] = useState(20);
 
   const refPlayer = useRef();
 
@@ -27,23 +31,45 @@ const Player = ({ accessToken, trackUri }) => {
     return () => clearInterval(interval);
   };
 
-  const waitPlayer = () => {
-    t = setInterval(() => {
-      if (refPlayer.current) {
-        if (refPlayer.current.state.status === "READY") {
-          setPlayerRef(true);
-        } else {
-          setPlayerRef(false);
-        }
+  function checkPlayer() {
+    if (refPlayer.current) {
+      if (refPlayer.current.state.status === "READY") {
+        setPlayerRef(true);
+      } else {
+        setPlayerRef(false);
       }
-      setTime(1);
+
+      let dif =
+        refPlayer.current.state.track.durationMs -
+        refPlayer.current.state.progressMs;
+      if (dif < 20000 && refPlayer.current.state.isPlaying) {
+        console.log("SET-TRUE");
+        setShowNextTrack(true);
+        setCountdown((prev) => prev - 1);
+      } else {
+        setCountdown(20);
+      }
+    }
+  }
+
+  function waitPlayer() {
+    t = setInterval(() => {
+      checkPlayer();
+      setTime(time + 1);
     }, 1000);
+
     return () => clearInterval(t);
-  };
+  }
+
+  useEffect(() => {
+    countdown === 0 && console.log("SET-FALSE");
+    countdown === 0 && setShowNextTrack(false);
+    countdown === 0 && setPlayingTrack(nextTrack);
+  }, [countdown]);
 
   useEffect(() => {
     waitPlayer();
-  }, [time]);
+  }, []);
 
   useEffect(() => {
     if (clickPlay && !play && refPlayer.current) {
@@ -66,6 +92,9 @@ const Player = ({ accessToken, trackUri }) => {
 
   return (
     <PlayerContainer>
+      {showNextTrack && (
+        <NextTrackDisplay nextTrack={nextTrack} countdown={countdown} />
+      )}
       <PlayerDiv>
         <PlayerLogo>
           <LogoImg src="img/Spotify_Logo_RGB_White.png" alt="Spotify" />
@@ -85,7 +114,7 @@ const Player = ({ accessToken, trackUri }) => {
               }
             }}
             play={clickPlay}
-            initialVolume={0.2}
+            initialVolume={0.5}
             syncExternalDevice={false}
             styles={{
               activeColor: "#fff",

@@ -11,14 +11,16 @@ const Display = ({ spotifyApi, track }) => {
   const [secTempoArray, setSecTempoArray] = useState([]);
   const [secStartArray, setSecStartArray] = useState([]);
   const [energy, setEnergy] = useState(0);
-  const { play, setArtist, setTrackInfo } = useContext(aContext);
-  const [tiempoRef] = useState(Date.now());
+  const { play, setArtist, setTrackInfo, setNextTrack, tiempoAcumulado } =
+    useContext(aContext);
+
   const [iSec, setISec] = useState(0);
 
   const OCRef = useRef();
+  const spRef = useRef();
 
   function getTrackInfo() {
-    if (!track) return;
+    // if (!track) return;
 
     let sectionTempo = [];
     let sectionStart = [];
@@ -39,44 +41,48 @@ const Display = ({ spotifyApi, track }) => {
     spotifyApi.getTrack(track.id).then((res) => {
       setTrackInfo(res.body);
       spotifyApi
+        .getRecommendations({
+          limit: 1,
+          seed_artists: res.body.artists[0].id,
+          seed_tracks: track.id,
+        })
+        .then((res) => {
+          setNextTrack(res.body.tracks[0]);
+          //  console.log("RECOM: ", res.body.tracks[0]);
+        });
+      spotifyApi
         .getArtist(res.body.artists[0].id)
         .then((res) => setArtist(res.body));
     });
   }
 
   useEffect(() => {
-    getTrackInfo();
+    track && getTrackInfo();
   }, [track]);
 
   const ControlTime = () => {
     useFrame(() => {
-      let tiempoAcu = (Date.now() - tiempoRef) / 1000;
-      tiempoAcu = Math.round((tiempoAcu + Number.EPSILON) * 100) / 100;
-      const tempoSecAct =
-        Math.round((secStartArray[iSec] + Number.EPSILON) * 100) / 100;
-      if (tiempoAcu >= tempoSecAct) {
-        OCRef.current.autoRotateSpeed =
-          (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) * 0.4;
-
-        if (iSec !== secTempoArray.length - 1) setISec(iSec + 1);
+      if (play) {
+        const tempoSecAct = secStartArray[iSec];
+        if (tiempoAcumulado >= tempoSecAct) {
+          OCRef.current.autoRotateSpeed =
+            secTempoArray[iSec] * secTempoArray[iSec] * 0.0004;
+          // (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) * 0.4;
+          //console.log("rotate", OCRef.current.autoRotateSpeed, iSec);
+          if (iSec !== secTempoArray.length - 1) setISec(iSec + 1);
+        }
       }
     });
     return null;
   };
-
   return (
     <PointsContainer>
       <ThreeScene>
-        <Sparkles
-          speed={
-            play
-              ? (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) /
-                  20) *
-                0.1
-              : 0.2
-          }
-        />
         <ControlTime />
+        <Sparkles
+          ref={spRef}
+          speed={play ? secTempoArray[iSec] * 0.025 : 0.2 || 0.2}
+        />
         <BufferBeatsPoints
           spotifyApi={spotifyApi}
           trackId={track?.id}
@@ -89,14 +95,12 @@ const Display = ({ spotifyApi, track }) => {
           estado={play}
           energy={energy}
         />
-
         <OrbitControls
           makeDefault
           ref={OCRef}
           autoRotate={play}
           autoRotateSpeed={
-            (Math.pow(secTempoArray[iSec], secTempoArray[iSec] / 100) / 20) *
-            0.4
+            secTempoArray[iSec] * secTempoArray[iSec] * 0.0004 || 1
           }
           enableZoom={false}
           enablePan={false}

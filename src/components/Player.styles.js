@@ -3,10 +3,10 @@ import styled from "styled-components";
 export const PlayerContainer = styled.div`
   position: absolute;
   display: flex;
-  bottom: 10px;
+  flex-direction: column;
+  bottom: 0.5rem;
   width: 100%;
-  flex-direction: row;
-  justify-content: center;
+  align-items: center;
 `;
 
 export const PlayerDiv = styled.div`

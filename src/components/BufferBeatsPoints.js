@@ -26,7 +26,11 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado, energy }) => {
   extend({ BeatPointsShaderMaterial });
 
   function getTrackBeats() {
-    if (!trackId) return;
+    if (!trackId) {
+      console.log("NO-TRACK");
+    } else {
+      console.log("TRACK");
+    }
     let analisysTrackBeats = [];
     let analisysStartSec = [];
     let analisysLoudSec = [];
@@ -67,7 +71,7 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado, energy }) => {
     setIBeats(0);
     setISec(0);
     getTrackBeats();
-  }, [trackId, estado]);
+  }, [trackId]);
 
   const refMaterial = useRef();
   let tweenRad;

@@ -42,7 +42,7 @@ export const H1Dashboard = styled.div`
 export const ArtistContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 1rem 0;
+  margin: 1rem 3rem;
 `;
 
 export const ArtistAvatar = styled.img`
@@ -62,12 +62,10 @@ export const H2Dashboard = styled.h2`
   font-weight: normal;
   padding-left: 1rem;
   font-size: 1.2rem;
-  color: #cdcdcd;
+  //color: #cdcdcd;
 `;
 
-export const InfoContainer = styled.div`
-  padding: 0 3rem;
-`;
+export const InfoContainer = styled.div``;
 
 export const InfoAlbumContainer = styled.div`
   display: flex;
@@ -75,6 +73,7 @@ export const InfoAlbumContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.colorFive};
   border-radius: 10px;
   padding: 1rem;
+  margin: 0 3rem;
 `;
 
 export const InfoAlbum = styled.div`
