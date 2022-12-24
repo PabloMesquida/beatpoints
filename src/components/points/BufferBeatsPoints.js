@@ -2,7 +2,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { extend, useFrame } from "@react-three/fiber";
 import { BufferAttribute, MathUtils } from "three";
 
-import { BeatPointsShaderMaterial } from "../shaders/BeatPointsShaderMaterial.js";
+import { BeatPointsShaderMaterial } from "./shaders/BeatPointsShaderMaterial.js";
 
 const TWEEN = require("@tweenjs/tween.js");
 
@@ -26,11 +26,6 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado, energy }) => {
   extend({ BeatPointsShaderMaterial });
 
   function getTrackBeats() {
-    if (!trackId) {
-      console.log("NO-TRACK");
-    } else {
-      console.log("TRACK");
-    }
     let analisysTrackBeats = [];
     let analisysStartSec = [];
     let analisysLoudSec = [];

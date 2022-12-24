@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
-import { aContext } from "../context/Context.js";
+import { aContext } from "../../context/Context.js";
 import NextTrackDisplay from "./NextTrackDisplay.js";
 import {
   PlayerContainer,
@@ -43,11 +43,8 @@ const Player = ({ accessToken, trackUri }) => {
         refPlayer.current.state.track.durationMs -
         refPlayer.current.state.progressMs;
       if (dif < 20000 && refPlayer.current.state.isPlaying) {
-        console.log("SET-TRUE");
-        setShowNextTrack(true);
         setCountdown((prev) => prev - 1);
-      } else {
-        setCountdown(20);
+        countdown > 1 && setShowNextTrack(true);
       }
     }
   }
@@ -62,9 +59,13 @@ const Player = ({ accessToken, trackUri }) => {
   }
 
   useEffect(() => {
-    countdown === 0 && console.log("SET-FALSE");
-    countdown === 0 && setShowNextTrack(false);
-    countdown === 0 && setPlayingTrack(nextTrack);
+    // countdown === 0 && console.log("SET-FALSE");
+    //  countdown === 0 && setShowNextTrack(false);
+    if (countdown <= 0) {
+      setShowNextTrack(false);
+      setCountdown(20);
+      setPlayingTrack(nextTrack);
+    }
   }, [countdown]);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ const Player = ({ accessToken, trackUri }) => {
 
   useEffect(() => {
     setClickPlay(true);
+    setShowNextTrack(false);
     if (trackUri !== undefined) {
       setPlay(false);
     }
@@ -114,7 +116,7 @@ const Player = ({ accessToken, trackUri }) => {
               }
             }}
             play={clickPlay}
-            initialVolume={0.5}
+            initialVolume={0.3}
             syncExternalDevice={false}
             styles={{
               activeColor: "#fff",

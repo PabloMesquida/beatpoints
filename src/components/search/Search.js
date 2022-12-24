@@ -5,7 +5,7 @@ import {
   ResultsContainer,
 } from "./Search.styles.js";
 import TrackSearchResult from "./TrackSearchResult.js";
-import { aContext } from "../context/Context.js";
+import { aContext } from "../../context/Context.js";
 
 const Search = ({ accessToken, spotifyApi }) => {
   const [search, setSearch] = useState("");

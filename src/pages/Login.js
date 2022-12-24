@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import LoaderPage from "./LoaderPage.js";
 import { LoginContainer, H1, ABtn } from "./Login.styles.js";
 
-// const URI = "http://localhost:3000";
+//const URI = "http://localhost:3000";
 const URI = "https://beatpoints.vercel.app";
 
 const clientId = process.env.REACT_APP_CLIENT_ID;

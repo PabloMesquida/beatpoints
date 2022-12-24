@@ -4,7 +4,7 @@ import { GenreTag, GenresContainer } from "./Genres.styles.js";
 const Genres = ({ artist }) => {
   let tags = [];
 
-  for (let i = 0; i < artist.genres.length; i++) {
+  for (let i = 0; i < artist.genres.length && i <= 9; i++) {
     tags.push(<GenreTag key={i}>{artist.genres[i]}</GenreTag>);
   }
   return <GenresContainer>{tags}</GenresContainer>;

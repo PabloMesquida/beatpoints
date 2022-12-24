@@ -1,9 +1,7 @@
-import React from "react";
-import { useState, useMemo, useRef, useEffect, useContext } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { extend, useFrame } from "@react-three/fiber";
 import { BufferAttribute, MathUtils } from "three";
-import { TatumsPointsShaderMaterial } from "../shaders/TatumsPointsShaderMaterial.js";
-import { aContext } from "../context/Context.js";
+import { TatumsPointsShaderMaterial } from "./shaders/TatumsPointsShaderMaterial.js";
 
 const TWEEN = require("@tweenjs/tween.js");
 
@@ -19,7 +17,6 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
   const [pauseControl, setPauseControl] = useState(true);
   const [realTime, setRealTime] = useState(0);
   const [delayControl, setDelayControl] = useState(true);
-  const { setTiempoAcumulado } = useContext(aContext);
 
   const COUNT = 3200;
 
@@ -143,8 +140,7 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
       const att = roundEpsilon(tatumsArray[iTat] - duraAnim / 100);
 
       loudSections(tiempoAcu, ats, Math.abs(secLoudArray[iSec]));
-      // console.log(tiempoAcu);
-      setTiempoAcumulado(tiempoAcu);
+
       if (tiempoAcu >= att) {
         tweenRad.start();
         setITat(iTat + 1);

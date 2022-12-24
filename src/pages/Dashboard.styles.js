@@ -39,13 +39,19 @@ export const DataSec1 = styled.div`
 `;
 
 export const DataSec2 = styled.div`
-  overflow-x: hidden;
-  overflow-y: scroll;
+  //overflow-x: hidden;
+  display: flex;
+  // align-items: center;
+  //justify-content: center;
   margin: 1rem 3rem 3rem 3rem;
+  padding: 1rem 0rem 1rem 1.5rem;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.colorOne};
   flex: 1;
+  overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 16px;
-    border-radius: 16px;
+    border-radius: 10px;
     background-color: ${({ theme }) => theme.colors.colorOne};
   }
   &::-webkit-scrollbar-thumb {

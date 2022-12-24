@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { aContext } from "../context/Context.js";
+import { aContext } from "../../context/Context.js";
 import ShowLyrics from "./ShowLyrics.js";
 import ShowSyncLyrics from "./ShowSyncLyrics.js";
 import { LyricsContainer } from "./Lyrics.styles.js";
@@ -17,31 +17,28 @@ export const Lyrics = () => {
     if (!playingTrack) return;
     setLyrics("");
     axios
-      .get(
-        `https://spotify-lyric-api.herokuapp.com/?trackid=${playingTrack.id}`
-      )
+      .get(`https://spotify-lyrics-api.vercel.app/?trackid=${playingTrack.id}`)
       .then((res) => {
-        console.log(res.data);
         setSyncLyric(!res.data.error);
 
         if (res.data.error === true || res.data.syncType === "UNSYNCED") {
-          console.log("no sync");
           setSyncLyric(res.data.error);
+          axios
+            .get(`${URI}/lyrics`, {
+              params: {
+                track: playingTrack.title,
+                artist: playingTrack.artist,
+              },
+            })
+            .then((res) => {
+              setLyrics(res.data.lyrics);
+            });
         } else {
-          setLyrics(res.data.lyrics);
+          setLyrics(res.data.lines);
         }
       })
       .catch(() => {
-        axios
-          .get(`${URI}/lyrics`, {
-            params: {
-              track: playingTrack.title,
-              artist: playingTrack.artist,
-            },
-          })
-          .then((res) => {
-            setLyrics(res.data.lyrics);
-          });
+        console.log("ERROR");
       });
   }, [playingTrack]);
 

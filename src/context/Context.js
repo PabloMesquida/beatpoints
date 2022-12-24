@@ -9,7 +9,6 @@ export default function AppContext({ children }) {
   const [playerRef, setPlayerRef] = useState(false);
   const [artist, setArtist] = useState();
   const [nextTrack, setNextTrack] = useState();
-  const [tiempoAcumulado, setTiempoAcumulado] = useState();
 
   return (
     <aContext.Provider
@@ -26,8 +25,6 @@ export default function AppContext({ children }) {
         setTrackInfo,
         nextTrack,
         setNextTrack,
-        tiempoAcumulado,
-        setTiempoAcumulado,
       }}
     >
       {children}

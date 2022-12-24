@@ -15,7 +15,7 @@ import {
   AlbumName,
   AlbumRelease,
 } from "./DataSong.styles.js";
-import { aContext } from "../context/Context.js";
+import { aContext } from "../../context/Context.js";
 import ImgReplace from "./ImgReplace.js";
 import Genres from "./Genres.js";
 

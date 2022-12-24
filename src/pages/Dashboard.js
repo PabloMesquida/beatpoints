@@ -1,8 +1,11 @@
 import React, { useEffect, useContext } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
-import Search from "../components/Search.js";
-import UserData from "../components/UserData.js";
-import Player from "../components/Player.js";
+import Search from "../components/search/Search.js";
+import UserData from "../components/userdata/UserData.js";
+import Player from "../components/player/Player.js";
+import Display from "../components/points/Display.js";
+import LoaderPage from "./LoaderPage.js";
+import DataSong from "../components/datasong/DataSong.js";
 import { useAuth } from "../hooks/useAuth.js";
 import {
   DashboardContainer,
@@ -13,10 +16,7 @@ import {
   DataSec2,
 } from "./Dashboard.styles.js";
 import { aContext } from "../context/Context.js";
-import { Lyrics } from "../components/Lyrics.js";
-import Display from "../components/Display.js";
-import LoaderPage from "./LoaderPage.js";
-import DataSong from "../components/DataSong.js";
+import { Lyrics } from "../components/datasong/Lyrics.js";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
@@ -41,7 +41,11 @@ const Dashboard = ({ code }) => {
         <DataSec1>
           <DataSong playingTrack={playingTrack} />
         </DataSec1>
-        {playingTrack && <DataSec2>{/* <Lyrics /> */}</DataSec2>}
+        {playingTrack && (
+          <DataSec2>
+            <Lyrics />
+          </DataSec2>
+        )}
       </DataSongContainer>
       <DisplayContainer>
         <Display spotifyApi={spotifyApi} track={playingTrack} />

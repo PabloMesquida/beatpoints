@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import BufferBeatsPoints from "./BufferBeatsPoints.js";
-import { aContext } from "../context/Context.js";
+import BufferTatumsPoints from "./BufferTatumsPoints.js";
+import { aContext } from "../../context/Context.js";
 import { OrbitControls, CameraShake, Sparkles } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import ThreeScene from "./ThreeScene.js";
-import BufferTatumsPoints from "./BufferTatumsPoints.js";
+
 import { PointsContainer } from "./Display.styles.js";
 
 const Display = ({ spotifyApi, track }) => {
