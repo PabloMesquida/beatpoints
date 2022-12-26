@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
 export const PointsContainer = styled.div`
-  z-index: 999;
+  @media (min-width: 900px) {
+    z-index: 999;
+  }
 `;

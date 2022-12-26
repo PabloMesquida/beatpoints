@@ -6,6 +6,7 @@ export const UserDataContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding-bottom: 0.5rem;
 `;
 
 export const ImageContainer = styled.div``;
@@ -16,9 +17,11 @@ export const AvatarImage = styled.img`
 `;
 
 export const BeatpointsText = styled.div`
-  position: absolute;
-  transform: rotate(-90deg);
   opacity: 0.2;
   font-size: 3rem;
-  bottom: 100px;
+  bottom: 150px;
+  @media (min-width: 900px) {
+    position: absolute;
+    transform: rotate(-90deg);
+  }
 `;

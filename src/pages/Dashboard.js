@@ -7,6 +7,7 @@ import Display from "../components/points/Display.js";
 import LoaderPage from "./LoaderPage.js";
 import DataSong from "../components/datasong/DataSong.js";
 import { useAuth } from "../hooks/useAuth.js";
+import { useMediaQuery } from "../hooks/useMediaQuery.js";
 import {
   DashboardContainer,
   UserContainer,
@@ -27,6 +28,8 @@ const Dashboard = ({ code }) => {
   const { playingTrack, playerRef } = useContext(aContext);
   const accessToken = useAuth(code);
 
+  const isDesktop = useMediaQuery("(min-width: 900px)");
+
   let isPlayer = playerRef;
 
   useEffect(() => {
@@ -37,21 +40,44 @@ const Dashboard = ({ code }) => {
   return (
     <DashboardContainer>
       {!isPlayer && <LoaderPage />}
-      <DataSongContainer>
-        <DataSec1>
-          <DataSong playingTrack={playingTrack} />
-        </DataSec1>
-        {playingTrack && (
-          <DataSec2>
-            <Lyrics />
-          </DataSec2>
-        )}
-      </DataSongContainer>
-      <DisplayContainer>
-        <Display spotifyApi={spotifyApi} track={playingTrack} />
-        <Search accessToken={accessToken} spotifyApi={spotifyApi} />
-        <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
-      </DisplayContainer>
+      {isDesktop ? (
+        <>
+          <DataSongContainer>
+            <DataSec1>
+              <DataSong playingTrack={playingTrack} />
+            </DataSec1>
+            {playingTrack && (
+              <DataSec2>
+                <Lyrics />
+              </DataSec2>
+            )}
+          </DataSongContainer>
+          <DisplayContainer>
+            <Display spotifyApi={spotifyApi} track={playingTrack} />
+            <Search accessToken={accessToken} spotifyApi={spotifyApi} />
+            <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
+          </DisplayContainer>
+        </>
+      ) : (
+        <>
+          <DisplayContainer>
+            <Display spotifyApi={spotifyApi} track={playingTrack} />
+            <Search accessToken={accessToken} spotifyApi={spotifyApi} />
+            <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
+          </DisplayContainer>
+          <DataSongContainer>
+            <DataSec1>
+              <DataSong playingTrack={playingTrack} />
+            </DataSec1>
+            {playingTrack && (
+              <DataSec2>
+                <Lyrics />
+              </DataSec2>
+            )}
+          </DataSongContainer>
+        </>
+      )}
+
       <UserContainer>
         <UserData accessToken={accessToken} spotifyApi={spotifyApi} />
       </UserContainer>

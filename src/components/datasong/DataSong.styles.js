@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const SongContainer = styled.div``;
 
 export const ImgArtistContiner = styled.div`
+  z-index: 1;
   position: relative;
 `;
 
@@ -24,25 +25,32 @@ export const H1Dashboard = styled.div`
   z-index: 10;
   position: absolute;
   display: flex;
+  flex: 1;
   align-self: flex-end;
   flex-direction: column-reverse;
   top: -10px;
   left: 0px;
   height: 25vh;
-  padding: 0 3rem;
+  padding: 0 1rem;
   margin-top: 0;
   margin-bottom: 0;
+  text-shadow: 0px 0px 25px rgba(0, 0, 0, 1);
   color: #fff;
   font-size: 2.5rem;
   line-height: 2.5rem;
   font-weight: bolder;
-  text-shadow: 0px 0px 25px rgba(0, 0, 0, 1);
+  @media (min-width: 900px) {
+    padding: 0 3rem;
+  }
 `;
 
 export const ArtistContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 1rem 3rem;
+  margin: 1rem;
+  @media (min-width: 900px) {
+    margin: 1rem 3rem;
+  }
 `;
 
 export const ArtistAvatar = styled.img`
@@ -73,7 +81,10 @@ export const InfoAlbumContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.colorFive};
   border-radius: 10px;
   padding: 1rem;
-  margin: 0 3rem;
+  margin: 0 1rem;
+  @media (min-width: 900px) {
+    margin: 0 3rem;
+  }
 `;
 
 export const InfoAlbum = styled.div`

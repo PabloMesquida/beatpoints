@@ -19,6 +19,7 @@ export const SearchInput = styled.input`
   border: 0;
   font-size: 1rem;
   font-weight: bold;
+  padding-left: 2rem;
 `;
 
 export const ResultsContainer = styled.div`

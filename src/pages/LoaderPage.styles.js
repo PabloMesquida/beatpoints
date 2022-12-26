@@ -34,7 +34,7 @@ export const LoaderContainer = styled.div`
 `;
 
 export const H1Loader = styled.span`
-  font-size: 5rem;
+  font-size: 3rem;
   font-family: ${({ theme }) => theme.fonts.logoFont}, sans-serif;
   color: ${({ theme }) => theme.colors.colorOne};
   //color: transparent;
@@ -43,4 +43,7 @@ export const H1Loader = styled.span`
   -moz-background-clip: text;
   background-clip: text;
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.02);
+  @media (min-width: 900px) {
+    font-size: 5rem;
+  }
 `;

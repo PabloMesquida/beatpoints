@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
 import { aContext } from "../../context/Context.js";
+import { useMediaQuery } from "../../hooks/useMediaQuery.js";
 import NextTrackDisplay from "./NextTrackDisplay.js";
 import {
   PlayerContainer,
@@ -19,6 +20,8 @@ const Player = ({ accessToken, trackUri }) => {
   const [time, setTime] = useState(0);
   const [showNextTrack, setShowNextTrack] = useState(false);
   const [countdown, setCountdown] = useState(20);
+
+  const isDesktop = useMediaQuery("(min-width: 900px)");
 
   const refPlayer = useRef();
 
@@ -99,7 +102,14 @@ const Player = ({ accessToken, trackUri }) => {
       )}
       <PlayerDiv>
         <PlayerLogo>
-          <LogoImg src="img/Spotify_Logo_RGB_White.png" alt="Spotify" />
+          <LogoImg
+            src={
+              isDesktop
+                ? "img/Spotify_Logo_RGB_White.png"
+                : "img/Spotify_Logo_RGB_White_small.png"
+            }
+            alt="Spotify"
+          />
         </PlayerLogo>
         <PlayContainer>
           <SpotifyPlayer

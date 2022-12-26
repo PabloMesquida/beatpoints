@@ -3,9 +3,14 @@ import styled from "styled-components";
 export const TrackResultContainer = styled.div`
   display: flex;
   width: 100%;
-  padding-left: 2rem;
+  padding-left: 1rem;
   margin: 0.5rem 0;
   cursor: pointer;
+  font-size: 0.8rem;
+  @media (min-width: 900px) {
+    padding-left: 2rem;
+    font-size: 1rem;
+  }
 `;
 
 export const TrackResultAvatar = styled.img`
@@ -23,4 +28,6 @@ export const TrackResultInfo = styled.div`
 
 export const TrackResultName = styled.span``;
 
-export const TrackResultArtist = styled.span``;
+export const TrackResultArtist = styled.span`
+  opacity: 0.5;
+`;

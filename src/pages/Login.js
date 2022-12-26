@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
 import LoaderPage from "./LoaderPage.js";
-import { LoginContainer, H1, ABtn } from "./Login.styles.js";
+import {
+  LoginContainer,
+  H1,
+  ABtn,
+  LoginBtn,
+  Advice,
+  LinkPremium,
+  LinkFooter,
+  Footer,
+} from "./Login.styles.js";
 
 //const URI = "http://localhost:3000";
 const URI = "https://beatpoints.vercel.app";
@@ -21,7 +30,30 @@ const Login = () => {
     <LoginContainer>
       {localStorage.getItem("code") !== null && <LoaderPage />}
       <H1>beatpoints.</H1>
-      <ABtn href={AUTH_URL}>Login with Spotify</ABtn>
+      <LoginBtn>
+        <ABtn href={AUTH_URL}>Login with Spotify</ABtn>
+        <Advice>
+          ⚠️&nbsp;
+          <LinkPremium
+            href="https://www.spotify.com/es/premium/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Spotify Premium
+          </LinkPremium>
+          &nbsp;account is required.
+        </Advice>
+      </LoginBtn>
+
+      <Footer>
+        <LinkFooter
+          href="https://pixelfaces.vercel.app"
+          target="_blank"
+          rel="noreferrer"
+        >
+          pixelfaces.vercel.app
+        </LinkFooter>
+      </Footer>
     </LoginContainer>
   );
 };

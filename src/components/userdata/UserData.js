@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { LinkFooter } from "../../pages/Login.styles.js";
 import {
   UserDataContainer,
   AvatarImage,
@@ -33,6 +34,7 @@ const UserData = ({ spotifyApi, accessToken }) => {
           />
         </ImageContainer>
         <BeatpointsText>beatpoints</BeatpointsText>
+        <LinkFooter>pixelfaces</LinkFooter>
       </UserDataContainer>
     )
   );

@@ -1,8 +1,10 @@
 import React from "react";
 import { ThreeContainer } from "./ThreeScene.styles.js";
 import { Canvas } from "@react-three/fiber";
+import { useMediaQuery } from "../../hooks/useMediaQuery.js";
 
 const ThreeScene = ({ children }) => {
+  const isDesktop = useMediaQuery("(min-width: 900px)");
   return (
     <ThreeContainer>
       <Canvas
@@ -12,6 +14,7 @@ const ThreeScene = ({ children }) => {
           width: "100%",
           height: "100%",
           overflow: "hidden",
+          top: isDesktop ? "0" : "-50px",
         }}
       >
         {children}

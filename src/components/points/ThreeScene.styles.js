@@ -1,11 +1,9 @@
 import styled from "styled-components";
 
-export const ThreeContainer = styled.div``;
-
-export const CanvasContainer = styled.canvas`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
+export const ThreeContainer = styled.div`
+  width: 100vw;
+  @media (min-width: 900px) {
+    width: 100%;
+    height: 100%;
+  }
 `;

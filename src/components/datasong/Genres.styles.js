@@ -15,5 +15,8 @@ export const GenreTag = styled.div`
 `;
 
 export const GenresContainer = styled.div`
-  margin: 0 3rem;
+  margin: 0 1rem;
+  @media (min-width: 900px) {
+    padding: 0 3rem;
+  }
 `;
