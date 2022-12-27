@@ -1,0 +1,7 @@
+/* beatpoints. - https://beatpoints.vercel.app */
+
+/* TEAM */
+Design & Develop: Pablo Mesquida
+Contact: pablomesquida67 [at] gmail.com
+Twitter: @pixel_faces
+Location: Madrid, España
