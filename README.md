@@ -26,3 +26,5 @@ But that's not all, you can also see information about the artist, album, and so
 
 #### Host & Deploy
 - **Vercel**
+
+ ![Beatpoint](http://thepixelfaces.com/image-bp.jpg)
