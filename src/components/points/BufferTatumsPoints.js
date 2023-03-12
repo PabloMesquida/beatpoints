@@ -90,8 +90,7 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
   }
 
   function roundEpsilon(n) {
-    n = Math.round((n + Number.EPSILON) * 100) / 100;
-    return n;
+    return Math.round((n + Number.EPSILON) * 100) / 100;
   }
 
   function loudSections(time, ats, loudSec) {
@@ -102,28 +101,6 @@ const BufferTatumsPoints = ({ spotifyApi, trackId, estado, energy }) => {
       setISec((iSec | 0) + 1);
     }
   }
-
-  // function loudSections(time, ats, loudSec) {
-  //   if (time >= ats) {
-  //     switch (true) {
-  //       case loudSec <= 4:
-  //         setLoud(0.07);
-  //         break;
-  //       case loudSec > 4 && loudSec <= 9:
-  //         setLoud(0.05);
-  //         break;
-  //       case loudSec > 9 && loudSec <= 15:
-  //         setLoud(0.03);
-  //         break;
-  //       case loudSec > 1:
-  //         setLoud(0.01);
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     setISec(iSec + 1);
-  //   }
-  // }
 
   let tiempoAcu;
 

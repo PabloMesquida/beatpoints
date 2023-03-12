@@ -25,14 +25,44 @@ const Player = ({ accessToken, trackUri }) => {
 
   const refPlayer = useRef();
 
-  let interval, t;
+  //let interval, t;
   let counter = now - start;
   let prog = 0;
 
+  // const update = () => {
+  //   interval = setInterval(() => setNow(Date.now()), 10);
+  //   return () => clearInterval(interval);
+  // };
+
   const update = () => {
-    interval = setInterval(() => setNow(Date.now()), 10);
-    return () => clearInterval(interval);
+    let id = null;
+    const frame = () => {
+      setNow(Date.now());
+      id = requestAnimationFrame(frame);
+    };
+    id = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(id);
   };
+
+  function waitPlayer() {
+    let id = null;
+    const frame = () => {
+      checkPlayer();
+      setTime((time) => time + 1);
+      id = requestAnimationFrame(frame);
+    };
+    id = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(id);
+  }
+
+  // function waitPlayer() {
+  //   t = setInterval(() => {
+  //     checkPlayer();
+  //     setTime(time + 1);
+  //   }, 1000);
+
+  //   return () => clearInterval(t);
+  // }
 
   function checkPlayer() {
     if (refPlayer.current) {
@@ -50,15 +80,6 @@ const Player = ({ accessToken, trackUri }) => {
         countdown > 1 && setShowNextTrack(true);
       }
     }
-  }
-
-  function waitPlayer() {
-    t = setInterval(() => {
-      checkPlayer();
-      setTime(time + 1);
-    }, 1000);
-
-    return () => clearInterval(t);
   }
 
   useEffect(() => {
