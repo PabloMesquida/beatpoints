@@ -21,7 +21,6 @@ import { Lyrics } from "../components/datasong/Lyrics.js";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
-  //clientId: "eafd5a23f1cb4f02b98c1cda9aa21333",
 });
 
 const Dashboard = ({ code }) => {
