@@ -6,7 +6,9 @@ Please note that to use Beatpoints, you'll need to have a Spotify Premium accoun
 
 But that's not all, you can also see information about the artist, album, and song, and enjoy a karaoke-style lyrics visualization.
 
+
 #### These are some of the libraries used in the project:
+
 - **React:** The most popular JavaScript library for creating user interfaces.
 - **React Three Fiber:** Allows you to create complex and beautiful 3D graphics in React.
 - **Drei:** Utilities for React Three Fiber.
@@ -14,17 +16,26 @@ But that's not all, you can also see information about the artist, album, and so
 - **Tween:** For animations.
 - **Axios:** HTTP requests.
 
-#### APIs
+#### APIs:
+
 - **Spotify Web API**
 - **Lyrics:** https://github.com/PabloMesquida/spotify-lyrics-api
 
+
 #### Server:
+
 - **Express:** Framework for Node.js. https://github.com/PabloMesquida/beatpoints-server
 
+
 #### Shaders:
+
 - **GLSL**
 
-#### Host & Deploy
+
+#### Host & Deploy:
+
 - **Vercel**
+
+
 
  ![Beatpoint](http://thepixelfaces.com/image-bp.jpg)
