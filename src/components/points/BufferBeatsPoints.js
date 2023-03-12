@@ -111,31 +111,40 @@ const BufferBeatsPoints = ({ spotifyApi, trackId, estado, energy }) => {
 
   function loudSections(time, ats, loudSec) {
     if (time >= ats) {
-      switch (true) {
-        case loudSec <= 2:
-          setLoud(0.3);
-          break;
-        case loudSec > 2 && loudSec <= 5:
-          setLoud(0.2);
-          break;
-        case loudSec > 5 && loudSec <= 8:
-          setLoud(0.15);
-          break;
-        case loudSec > 8 && loudSec <= 12:
-          setLoud(0.1);
-          break;
-        case loudSec > 12 && loudSec <= 17:
-          setLoud(0.05);
-          break;
-        case loudSec > 17:
-          setLoud(0.01);
-          break;
-        default:
-          break;
-      }
+      const loudness = [0.3, 0.2, 0.15, 0.1, 0.05, 0.01];
+      const idx = Math.min(Math.floor((loudSec - 2) / 3), loudness.length - 1);
+      setLoud(loudness[idx]);
       setISec(iSec + 1);
     }
   }
+
+  // function loudSections(time, ats, loudSec) {
+  //   if (time >= ats) {
+  //     switch (true) {
+  //       case loudSec <= 2:
+  //         setLoud(0.3);
+  //         break;
+  //       case loudSec > 2 && loudSec <= 5:
+  //         setLoud(0.2);
+  //         break;
+  //       case loudSec > 5 && loudSec <= 8:
+  //         setLoud(0.15);
+  //         break;
+  //       case loudSec > 8 && loudSec <= 12:
+  //         setLoud(0.1);
+  //         break;
+  //       case loudSec > 12 && loudSec <= 17:
+  //         setLoud(0.05);
+  //         break;
+  //       case loudSec > 17:
+  //         setLoud(0.01);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     setISec(iSec + 1);
+  //   }
+  // }
 
   let tiempoAcu;
 
