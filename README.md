@@ -1,20 +1,20 @@
 # Beatpoints
 
-Beatpoints is a Spotify clone made with React, React Three Fiber, and Styled Components. This project has a 3D graphical representation that syncs with the music. What does this mean? The component changes its shape, color, and position in response to the information it receives from the Spotify API.
+Beatpoints is a music streaming web application built using React, React Three Fiber, and Styled Components for the graphical user interface. This project uses a 3D representation that is synchronized with the music playback. The graphical component's shape, color, and position change in response to the data received from the Spotify Web API.
 
-Please note that to use Beatpoints, you'll need to have a Spotify Premium account since some API features are only available to premium subscribers. If you're not a premium subscriber, don't worry! You can still explore the source code and see how the project works.
+It should be noted that using Beatpoints requires a premium Spotify account since some of the API features used are only available to premium subscribers.
 
-But that's not all, you can also see information about the artist, album, and song, and enjoy a karaoke-style lyrics visualization.
+Additionally, Beatpoints displays information about the artist, album, and song, as well as a karaoke-style lyrics visualization.
 
 
-#### These are some of the libraries used in the project:
+#### The following libraries were used in the development of the project:
 
-- **React:** The most popular JavaScript library for creating user interfaces.
-- **React Three Fiber:** Allows you to create complex and beautiful 3D graphics in React.
-- **Drei:** Utilities for React Three Fiber.
-- **Styled Components:** For writing CSS in JS.
-- **Tween:** For animations.
-- **Axios:** HTTP requests.
+- **React:** A widely used JavaScript library for creating user interfaces.
+- **React Three Fiber:** A library that enables the creation of complex and visually appealing 3D graphics in React.
+- **Drei:** A set of utility tools that enhances React Three Fiber functionalities..
+- **Styled Components:** A CSS-in-JS library that simplifies the styling process..
+- **Tween:** A library utilized for creating animations.
+- **Axios:** A HTTP library for making requests.
 
 #### APIs:
 
@@ -32,9 +32,7 @@ But that's not all, you can also see information about the artist, album, and so
 - **GLSL**
 
 
-#### Host & Deploy:
-
-- **Vercel**
+Finally, Beatpoints is hosted and deployed on Vercel.
 
 
 
