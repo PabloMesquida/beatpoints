@@ -34,7 +34,7 @@ const UserData = ({ spotifyApi, accessToken }) => {
           />
         </ImageContainer>
         <BeatpointsText>beatpoints</BeatpointsText>
-        <LinkFooter>pixelfaces</LinkFooter>
+        <LinkFooter><a href="https://pablopx.vercel.app/" target="_blanck"> PM</a></LinkFooter>
       </UserDataContainer>
     )
   );
