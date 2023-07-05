@@ -35,5 +35,5 @@ Additionally, Beatpoints displays information about the artist, album, and song,
 Finally, Beatpoints is hosted and deployed on Vercel.
 
 
+![Watch the video](https://vimeo.com/842148600)
 
- ![Beatpoint](http://thepixelfaces.com/image-bp.jpg)
