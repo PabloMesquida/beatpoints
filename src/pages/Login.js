@@ -45,11 +45,11 @@ const Login = () => {
 
       <Footer>
         <LinkFooter
-          href="https://pixelfaces.vercel.app"
+          href="https://pablopx.vercel.app/"
           target="_blank"
           rel="noreferrer"
         >
-          pixelfaces.vercel.app
+         pablopx.vercel.app
         </LinkFooter>
       </Footer>
     </LoginContainer>
